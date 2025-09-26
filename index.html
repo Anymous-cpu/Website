@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>⛩️ JASHER BOT - ULTIMATE PAYMENT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    #canvas3d {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, rgba(0,0,30,0.8) 0%, rgba(0,0,10,0.95) 100%);
+      z-index: -1;
+    }
+
+    .header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 4.2rem;
+      background: linear-gradient(90deg, #ff00cc, #00c9ff, #00ff9d);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 30px rgba(0, 201, 255, 0.6);
+      margin-bottom: 16px;
+      letter-spacing: 2px;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 20px rgba(255, 0, 204, 0.7), 0 0 30px rgba(0, 201, 255, 0.6); }
+      to { text-shadow: 0 0 30px rgba(255, 0, 204, 1), 0 0 50px rgba(0, 201, 255, 0.9), 0 0 70px rgba(0, 255, 157, 0.8); }
+    }
+
+    .header p {
+      color: #a0a0d0;
+      font-size: 1.2rem;
+      line-height: 1.7;
+      max-width: 650px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    .container {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 1400px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+    }
+
+    .product-card {
+      background: rgba(10, 8, 30, 0.65);
+      backdrop-filter: blur(20px);
+      border-radius: 30px;
+      padding: 40px 30px;
+      width: 380px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #ff00cc, #00c9ff, #00ff9d, #ff00cc);
+      z-index: -1;
+      border-radius: 32px;
+      background-size: 400% 400%;
+      animation: gradientShift 8s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .product-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #0a081e;
+      border-radius: 30px;
+      z-index: -1;
+    }
+
+    .product-card:hover {
+      transform: translateY(-15px) rotateX(5deg);
+      box-shadow: 
+        0 30px 70px rgba(0, 0, 0, 0.8),
+        0 0 40px rgba(0, 201, 255, 0.5),
+        0 0 60px rgba(0, 255, 157, 0.3);
+    }
+
+    .product-icon {
+      font-size: 4rem;
+      margin-bottom: 24px;
+      background: linear-gradient(90deg, #ff00cc, #00ff9d);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 20px rgba(255, 0, 204, 0.4);
+    }
+
+    .product-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .product-desc {
+      color: #b8b8e0;
+      margin-bottom: 26px;
+      font-size: 1rem;
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    .price {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 20px 0;
+      background: linear-gradient(90deg, #00c9ff, #00ff9d);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 16px;
+      margin: 16px 0 26px;
+      border-radius: 16px;
+      border: 1px solid rgba(0, 201, 255, 0.3);
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+      font-size: 1.1rem;
+      outline: none;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.3s;
+    }
+
+    input[type="number"]:focus {
+      border-color: #00ff9d;
+      box-shadow: 0 0 15px rgba(0, 255, 157, 0.4);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 16px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      background: linear-gradient(90deg, #ff00cc, #00c9ff);
+      color: white;
+      box-shadow: 0 8px 25px rgba(255, 0, 204, 0.4);
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 20px;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(25deg);
+      transition: all 0.6s;
+    }
+
+    .btn:hover::after {
+      left: 120%;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 
+        0 12px 30px rgba(255, 0, 204, 0.6),
+        0 0 30px rgba(0, 201, 255, 0.5);
+    }
+
+    .cart {
+      background: rgba(8, 6, 25, 0.7);
+      backdrop-filter: blur(22px);
+      border-radius: 30px;
+      padding: 40px 30px;
+      width: 380px;
+      border: 1px solid rgba(0, 255, 157, 0.3);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+      position: relative;
+    }
+
+    .cart h2 {
+      text-align: center;
+      margin-bottom: 28px;
+      color: #00ff9d;
+      font-size: 2.1rem;
+      font-family: 'Orbitron', sans-serif;
+      text-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+    }
+
+    .cart-items {
+      margin-bottom: 28px;
+      max-height: 220px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .total {
+      text-align: center;
+      font-size: 1.9rem;
+      margin: 28px 0;
+      color: #ff00cc;
+      font-weight: 800;
+      font-family: 'Orbitron', sans-serif;
+      text-shadow: 0 0 20px rgba(255, 0, 204, 0.7);
+    }
+
+    .checkout-btn {
+      background: linear-gradient(90deg, #00c9ff, #00ff9d);
+      color: #000;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.7); }
+      70% { box-shadow: 0 0 0 15px rgba(0, 255, 157, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 255, 157, 0); }
+    }
+
+    .empty-cart {
+      text-align: center;
+      color: #6a6aa0;
+      font-style: italic;
+      padding: 25px 0;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .product-card, .cart {
+        width: 95%;
+        max-width: 450px;
+      }
+      .header h1 {
+        font-size: 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 3D Background Canvas -->
+  <canvas id="canvas3d"></canvas>
+  <div class="overlay"></div>
+
+  <div class="header">
+    <h1>⛩️ JASHER BOT ULTIMATE</h1>
+    <p>⚡ Auto Respon Kilat • Desain Menu Keren • Full Custom • 24/7 Online • Free Premium 5 Hari</p>
+  </div>
+
+  <div class="container">
+    <!-- Premium Access -->
+    <div class="product-card" data-tilt>
+      <div class="product-icon">
+        <i class="fas fa-crown"></i>
+      </div>
+      <h2 class="product-title">PREMIUM ACCESS</h2>
+      <p class="product-desc">Dapatkan akses premium selama X hari. Harga: <strong>Rp5.000 per 10 hari</strong>. Cocok untuk pengguna aktif!</p>
+      <div class="price">Rp5.000 / 10 HARI</div>
+      <input type="number" id="premiumDays" min="10" step="10" placeholder="Jumlah hari (min 10, kelipatan 10)" value="10">
+      <button class="btn" onclick="addToCart('Premium Access')">
+        <i class="fas fa-shopping-cart"></i> TAMBAH KE KERANJANG
+      </button>
+    </div>
+
+    <!-- Reseller -->
+    <div class="product-card" data-tilt>
+      <div class="product-icon">
+        <i class="fas fa-store"></i>
+      </div>
+      <h2 class="product-title">RESELLER</h2>
+      <p class="product-desc">Jadi reseller resmi! Dapatkan SC FREE UP NO ENC & bisa dijual lagi. Profit terus!</p>
+      <div class="price">Rp30.000</div>
+      <button class="btn" onclick="addToCart('Reseller')">
+        <i class="fas fa-shopping-cart"></i> TAMBAH KE KERANJANG
+      </button>
+    </div>
+
+    <!-- Cart -->
+    <div class="cart">
+      <h2><i class="fas fa-receipt"></i> KERANJANG</h2>
+      <div class="cart-items" id="cartItems">
+        <p class="empty-cart">Keranjang kosong</p>
+      </div>
+      <div class="total" id="total">TOTAL: RP0</div>
+      <button class="btn checkout-btn" onclick="checkout()" id="checkoutBtn" disabled>
+        <i class="fab fa-telegram-plane"></i> KIRIM KE DEVELOPER
+      </button>
+    </div>
+  </div>
+
+  <!-- Three.js for 3D Background -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    // 3D Nebula Background
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas3d'), alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 2000;
+    const posArray = new Float32Array(particlesCount * 3);
+
+    for (let i = 0; i < particlesCount * 3; i++) {
+      posArray[i] = (Math.random() - 0.5) * 20;
+    }
+
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    const particlesMaterial = new THREE.PointsMaterial({
+      size: 0.03,
+      color: 0x00c9ff,
+      transparent: true,
+      opacity: 0.8,
+      blending: THREE.AdditiveBlending
+    });
+
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
+
+    camera.position.z = 3;
+
+    const animate = () => {
+      requestAnimationFrame(animate);
+      particlesMesh.rotation.x += 0.0002;
+      particlesMesh.rotation.y += 0.0005;
+      renderer.render(scene, camera);
+    };
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+
+  <script>
+    let cart = [];
+
+    function addToCart(product) {
+      if (product === 'Premium Access') {
+        const daysInput = document.getElementById('premiumDays').value;
+        const days = parseInt(daysInput);
+        if (isNaN(days) || days < 10 || days % 10 !== 0) {
+          alert('❌ Masukkan jumlah hari minimal 10 dan kelipatan 10!');
+          return;
+        }
+        const price = (days / 10) * 5000;
+        cart.push({ name: 'Premium Access', days: days, price: price });
+      } else if (product === 'Reseller') {
+        cart.push({ name: 'Reseller', price: 30000 });
+      }
+      renderCart();
+    }
+
+    function renderCart() {
+      const cartItemsEl = document.getElementById('cartItems');
+      const totalEl = document.getElementById('total');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+
+      if (cart.length === 0) {
+        cartItemsEl.innerHTML = '<p class="empty-cart">Keranjang kosong</p>';
+        totalEl.textContent = 'TOTAL: RP0';
+        checkoutBtn.disabled = true;
+        return;
+      }
+
+      let html = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        html += `<div class="cart-item">
+          <span>${item.name.toUpperCase()}${item.days ? ` (${item.days} HARI)` : ''}</span>
+          <span>RP${item.price.toLocaleString('id-ID')}</span>
+        </div>`;
+        total += item.price;
+      });
+
+      cartItemsEl.innerHTML = html;
+      totalEl.textContent = `TOTAL: RP${total.toLocaleString('id-ID')}`;
+      checkoutBtn.disabled = false;
+    }
+
+    function checkout() {
+      if (cart.length === 0) return;
+
+      let message = "⛩️ ━━━━━━━━ ⛩️\n𖤍  𝐉𝐀𝐒𝐇𝐄𝐑 𝐁𝐎𝐓 𖤍\n⚡ Cepat ⚡ Praktis \n⛩️ ━━━━━━━━ ⛩️\n\n";
+
+      cart.forEach(item => {
+        message += "Nama barang : " + item.name + "\n";
+        if (item.days) {
+          message += "Waktu : " + item.days + " hari\n";
+        }
+        message += "Harga : Rp" + item.price.toLocaleString('id-ID') + "\n\n";
+      });
+
+      message += "🏯 SC NO ENC = 20K\n\n";
+      message += "✔️ GET SC NO ENC BISA RENAME\n\n";
+      message += "🏯 OPEN RESELLER JS = 30K 🔐\n\n";
+      message += "✔️ GET SC FREE UP NO ENC\n";
+      message += "✔️ BISA DI JUAL LAGI\n\n";
+      message += "⛩️ BOT JS = @FreelanceZone_bot\n";
+      message += "⛩️ PV DEV = @Shiroo_Dev_Official";
+
+      const encodedMessage = encodeURIComponent(message);
+      const telegramUrl = `https://t.me/Shiroo_Dev_Official?text=${encodedMessage}`;
+      window.open(telegramUrl, '_blank');
+
+      // Feedback visual
+      const btn = document.getElementById('checkoutBtn');
+      btn.innerHTML = '<i class="fas fa-check"></i> TERKIRIM!';
+      btn.style.background = 'linear-gradient(90deg, #00ff9d, #00c9ff)';
+      setTimeout(() => {
+        btn.innerHTML = '<i class="fab fa-telegram-plane"></i> KIRIM KE DEVELOPER';
+        btn.style.background = 'linear-gradient(90deg, #00c9ff, #00ff9d)';
+      }, 2000);
+
+      cart = [];
+      renderCart();
+    }
+  </script>
+</body>
+</html>
