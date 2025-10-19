@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pencarian - Sky Island</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            min-height: 100vh;
+            padding: 16px;
+            padding-bottom: 100px;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo h1 {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .search-header {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 16px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-box button {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .search-box button:active {
+            transform: scale(0.95);
+        }
+
+        .vip-section {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section-title {
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .vip-badge {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .product-card:active {
+            transform: scale(0.98);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .product-info {
+            padding: 12px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: white;
+            margin-bottom: 6px;
+            font-size: 14px;
+            line-height: 1.3;
+            cursor: pointer;
+        }
+
+        .product-price {
+            color: #FF6B6B;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .product-seller {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 11px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .product-seller:hover {
+            color: #1a2980;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .stars {
+            display: flex;
+            gap: 1px;
+        }
+
+        .star {
+            color: #FFD700;
+            font-size: 10px;
+        }
+
+        .rating-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 10px;
+        }
+
+        .chat-btn {
+            width: 100%;
+            padding: 8px;
+            background: linear-gradient(135deg, #00b09b, #96c93d);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .chat-btn:active {
+            transform: scale(0.95);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 90;
+            max-width: 95%;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0 4px;
+            position: relative;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item span {
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(26, 41, 128, 0.4);
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        .no-products {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            font-size: 16px;
+            opacity: 0.8;
+            grid-column: 1 / -1;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+                padding-bottom: 90px;
+            }
+            
+            .header {
+                padding: 12px;
+                border-radius: 16px;
+            }
+            
+            .logo img {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .logo h1 {
+                font-size: 18px;
+            }
+            
+            .search-header {
+                padding: 12px;
+                border-radius: 16px;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 10px;
+            }
+            
+            .product-image {
+                height: 100px;
+            }
+            
+            .nav-item {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .nav-item i {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header {
+                padding: 10px;
+            }
+            
+            .logo img {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .logo h1 {
+                font-size: 16px;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .nav-item {
+                width: 45px;
+                height: 45px;
+                margin: 0 3px;
+            }
+            
+            .nav-item i {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Logo Sky Island">
+                <h1>Pencarian</h1>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span id="usernameDisplay">Guest</span>
+            </div>
+        </div>
+
+        <!-- Search Box -->
+        <div class="search-header">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Cari produk...">
+                <button onclick="searchProducts()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- VIP Products Section -->
+        <div class="vip-section">
+            <h3 class="section-title">
+                <i class="fas fa-crown"></i>
+                Produk VIP
+                <span class="vip-badge">PROMO</span>
+            </h3>
+            <div class="products-grid" id="vipProductsGrid">
+                <!-- VIP Products akan ditampilkan di sini -->
+            </div>
+        </div>
+
+        <!-- All Products Section -->
+        <div class="vip-section">
+            <h3 class="section-title">
+                <i class="fas fa-box"></i>
+                Semua Produk
+            </h3>
+            <div class="products-grid" id="allProductsGrid">
+                <!-- Semua produk akan ditampilkan di sini -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="credit.html" class="nav-item">
+            <i class="fas fa-coins"></i>
+            <span>Credit</span>
+        </a>
+        <a href="pencarian.html" class="nav-item active">
+            <i class="fas fa-search"></i>
+            <span>Pencarian</span>
+        </a>
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="store.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Store</span>
+        </a>
+        <a href="akun.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Akun</span>
+        </a>
+    </div>
+
+    <script>
+        // Tampilkan username dari localStorage jika ada
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedUsername = localStorage.getItem('skyIslandCurrentUser');
+            if (savedUsername) {
+                document.getElementById('usernameDisplay').textContent = savedUsername;
+            }
+            
+            loadProducts();
+        });
+
+        function loadProducts() {
+            const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            const vipProducts = allProducts.filter(product => product.isVIP === true);
+            const regularProducts = allProducts.filter(product => !product.isVIP);
+            
+            displayVIPProducts(vipProducts);
+            displayAllProducts(regularProducts);
+        }
+
+        function displayVIPProducts(products) {
+            const grid = document.getElementById('vipProductsGrid');
+            grid.innerHTML = '';
+
+            if (products.length === 0) {
+                grid.innerHTML = '<div class="no-products">Belum ada produk VIP</div>';
+                return;
+            }
+
+            products.forEach(product => {
+                const rating = calculateProductRating(product.id);
+                const productElement = createProductElement(product, rating, true);
+                grid.appendChild(productElement);
+            });
+        }
+
+        function displayAllProducts(products) {
+            const grid = document.getElementById('allProductsGrid');
+            grid.innerHTML = '';
+
+            if (products.length === 0) {
+                grid.innerHTML = '<div class="no-products">Belum ada produk</div>';
+                return;
+            }
+
+            products.forEach(product => {
+                const rating = calculateProductRating(product.id);
+                const productElement = createProductElement(product, rating, false);
+                grid.appendChild(productElement);
+            });
+        }
+
+        function createProductElement(product, rating, isVIP) {
+            const productElement = document.createElement('div');
+            productElement.className = 'product-card';
+            
+            productElement.innerHTML = `
+                <img src="${product.image}" alt="${product.name}" class="product-image" onclick="viewProductDetail(${product.id})">
+                <div class="product-info">
+                    <div class="product-name" onclick="viewProductDetail(${product.id})">${product.name} ${isVIP ? '👑' : ''}</div>
+                    <div class="product-price">Rp ${product.price.toLocaleString()}</div>
+                    <div class="product-seller" onclick="viewSellerProfile('${product.seller}')">
+                        <i class="fas fa-store"></i> ${product.seller}
+                    </div>
+                    <div class="rating">
+                        <div class="stars">
+                            ${generateStars(rating.average)}
+                        </div>
+                        <div class="rating-text">${rating.average}% (${rating.count})</div>
+                    </div>
+                    <button class="chat-btn" onclick="startChat('${product.seller}', ${product.id})">
+                        <i class="fas fa-comment"></i> Chat Penjual
+                    </button>
+                </div>
+            `;
+            
+            return productElement;
+        }
+
+        function generateStars(rating) {
+            const stars = [];
+            const filledStars = Math.floor(rating / 20); // Convert percentage to 1-5 stars
+            const emptyStars = 5 - filledStars;
+            
+            for (let i = 0; i < filledStars; i++) {
+                stars.push('<i class="fas fa-star star"></i>');
+            }
+            for (let i = 0; i < emptyStars; i++) {
+                stars.push('<i class="far fa-star star"></i>');
+            }
+            
+            return stars.join('');
+        }
+
+        function calculateProductRating(productId) {
+            const allRatings = JSON.parse(localStorage.getItem('skyIslandRatings') || '[]');
+            const productRatings = allRatings.filter(rating => rating.productId === productId);
+            
+            if (productRatings.length === 0) {
+                return { average: 0, count: 0 };
+            }
+            
+            const totalRating = productRatings.reduce((sum, rating) => sum + rating.stars, 0);
+            const averageRating = Math.round((totalRating / productRatings.length) * 20); // Convert to percentage
+            
+            return { average: averageRating, count: productRatings.length };
+        }
+
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            
+            const filteredProducts = allProducts.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm) ||
+                product.seller.toLowerCase().includes(searchTerm)
+            );
+            
+            const vipProducts = filteredProducts.filter(product => product.isVIP === true);
+            const regularProducts = filteredProducts.filter(product => !product.isVIP);
+            
+            displayVIPProducts(vipProducts);
+            displayAllProducts(regularProducts);
+        }
+
+        // Redirect ke halaman detail produk
+        function viewProductDetail(productId) {
+            window.location.href = `product-show.html?id=${productId}`;
+        }
+
+        function viewSellerProfile(sellerUsername) {
+            window.location.href = `seller-profile.html?seller=${sellerUsername}`;
+        }
+
+        function startChat(sellerUsername, productId) {
+            const currentUser = localStorage.getItem('skyIslandCurrentUser');
+            
+            if (!currentUser) {
+                alert('Silakan login terlebih dahulu!');
+                window.location.href = 'akun.html';
+                return;
+            }
+
+            if (currentUser === sellerUsername) {
+                alert('Anda tidak bisa chat dengan diri sendiri!');
+                return;
+            }
+
+            // Cari atau buat chat baru
+            const allChats = JSON.parse(localStorage.getItem('skyIslandChats') || '[]');
+            let existingChat = allChats.find(chat => 
+                ((chat.seller === sellerUsername && chat.buyer === currentUser) ||
+                 (chat.seller === currentUser && chat.buyer === sellerUsername)) &&
+                chat.productId === productId
+            );
+
+            if (!existingChat) {
+                // Buat chat baru
+                const newChat = {
+                    id: Date.now(),
+                    seller: sellerUsername,
+                    buyer: currentUser,
+                    productId: productId,
+                    messages: [
+                        {
+                            sender: currentUser,
+                            text: `Halo, saya tertarik dengan produk ${getProductName(productId)}`,
+                            timestamp: new Date().toISOString(),
+                            type: 'text'
+                        }
+                    ]
+                };
+                allChats.push(newChat);
+                localStorage.setItem('skyIslandChats', JSON.stringify(allChats));
+                existingChat = newChat;
+            }
+
+            // Redirect ke halaman chat
+            window.location.href = `chat.html?id=${existingChat.id}`;
+        }
+
+        function getProductName(productId) {
+            const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            const product = allProducts.find(p => p.id === productId);
+            return product ? product.name : 'produk ini';
+        }
+
+        // Enter untuk search
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchProducts();
+            }
+        });
+
+        // Bottom navigation active state
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Detail Produk - Sky Island</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            min-height: 100vh;
+            padding: 16px;
+            padding-bottom: 100px;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .header h1 {
+            color: #1a2980;
+            font-size: 22px;
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: transform 0.3s;
+        }
+
+        .back-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Product Image */
+        .product-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Product Info */
+        .product-info {
+            margin-bottom: 25px;
+        }
+
+        .product-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a2980;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+
+        .product-stock {
+            color: #27ae60;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .product-description {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        /* Seller Info */
+        .seller-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .seller-info:hover {
+            background: #e9ecef;
+        }
+
+        .seller-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .seller-details {
+            flex: 1;
+        }
+
+        .seller-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .seller-store {
+            color: #666;
+            font-size: 13px;
+        }
+
+        /* Rating Section */
+        .rating-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a2980;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .overall-rating {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .rating-score {
+            text-align: center;
+        }
+
+        .rating-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a2980;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 5px;
+        }
+
+        .rating-star {
+            color: #FFD700;
+            font-size: 16px;
+        }
+
+        .rating-count {
+            color: #666;
+            font-size: 13px;
+        }
+
+        /* Reviews List */
+        .reviews-list {
+            margin-bottom: 25px;
+        }
+
+        .review-item {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .review-user {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .review-rating {
+            display: flex;
+            gap: 2px;
+        }
+
+        .review-star {
+            color: #FFD700;
+            font-size: 14px;
+        }
+
+        .review-content {
+            color: #333;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .review-date {
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* Add Review Section */
+        .add-review {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .rating-input {
+            margin-bottom: 15px;
+        }
+
+        .rating-stars-input {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .star-input {
+            font-size: 24px;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .star-input.active {
+            color: #FFD700;
+        }
+
+        .review-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 80px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            width: 100%;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-chat {
+            background: linear-gradient(135deg, #00b09b, #96c93d);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .no-reviews {
+            text-align: center;
+            color: #666;
+            padding: 30px 20px;
+            font-size: 16px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 90;
+            max-width: 95%;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0 4px;
+            position: relative;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item span {
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(26, 41, 128, 0.4);
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+                padding-bottom: 90px;
+            }
+            
+            .container {
+                padding: 15px;
+                border-radius: 16px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .product-image {
+                height: 250px;
+            }
+            
+            .product-name {
+                font-size: 22px;
+            }
+            
+            .product-price {
+                font-size: 24px;
+            }
+            
+            .nav-item {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .nav-item i {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Detail Produk</h1>
+            <a href="javascript:history.back()" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
+        </div>
+
+        <div id="productContent">
+            <!-- Konten produk akan diisi oleh JavaScript -->
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="credit.html" class="nav-item">
+            <i class="fas fa-coins"></i>
+            <span>Credit</span>
+        </a>
+        <a href="pencarian.html" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Pencarian</span>
+        </a>
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="store.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Store</span>
+        </a>
+        <a href="akun.html" class="nav-item active">
+            <i class="fas fa-user"></i>
+            <span>Akun</span>
+        </a>
+    </div>
+
+    <script>
+        let currentProductId = null;
+        let currentSeller = '';
+        let selectedRating = 0;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get product ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            currentProductId = parseInt(urlParams.get('id'));
+            
+            if (!currentProductId) {
+                window.location.href = 'pencarian.html';
+                return;
+            }
+
+            loadProductDetail();
+            setupRatingStars();
+        });
+
+        function loadProductDetail() {
+            const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            const product = allProducts.find(p => p.id === currentProductId);
+            
+            if (!product) {
+                alert('Produk tidak ditemukan!');
+                window.location.href = 'pencarian.html';
+                return;
+            }
+
+            currentSeller = product.seller;
+            const rating = calculateProductRating(currentProductId);
+            const users = JSON.parse(localStorage.getItem('skyIslandUsers') || '[]');
+            const seller = users.find(user => user.username === product.seller);
+
+            const productContent = document.getElementById('productContent');
+            productContent.innerHTML = `
+                <img src="${product.image}" alt="${product.name}" class="product-image">
+                
+                <div class="product-info">
+                    <h2 class="product-name">${product.name} ${product.isVIP ? '👑' : ''}</h2>
+                    <div class="product-price">Rp ${product.price.toLocaleString()}</div>
+                    <div class="product-stock">Stok: ${product.stock}</div>
+                    <div class="product-description">${product.description}</div>
+                </div>
+
+                <div class="seller-info" onclick="viewSellerProfile('${product.seller}')">
+                    <div class="seller-avatar">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="seller-details">
+                        <div class="seller-name">${product.seller}</div>
+                        <div class="seller-store">${seller?.storeName || 'Toko ' + product.seller}</div>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color: #666;"></i>
+                </div>
+
+                <div class="rating-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-star"></i>
+                        Ulasan & Rating
+                    </h3>
+                    
+                    <div class="overall-rating">
+                        <div class="rating-score">
+                            <div class="rating-number">${(rating.average / 20).toFixed(1)}</div>
+                            <div class="rating-stars">
+                                ${generateStars(rating.average)}
+                            </div>
+                            <div class="rating-count">${rating.count} ulasan</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="add-review">
+                    <h4 style="margin-bottom: 15px; color: #333;">Beri Ulasan</h4>
+                    <div class="rating-input">
+                        <div class="rating-stars-input" id="ratingStarsInput">
+                            <i class="fas fa-star star-input" data-rating="1"></i>
+                            <i class="fas fa-star star-input" data-rating="2"></i>
+                            <i class="fas fa-star star-input" data-rating="3"></i>
+                            <i class="fas fa-star star-input" data-rating="4"></i>
+                            <i class="fas fa-star star-input" data-rating="5"></i>
+                        </div>
+                    </div>
+                    <textarea class="review-textarea" id="reviewText" placeholder="Tulis ulasan Anda tentang produk ini..."></textarea>
+                    <button class="btn" onclick="submitReview()">Kirim Ulasan</button>
+                </div>
+
+                <div class="reviews-list">
+                    <h4 style="margin-bottom: 15px; color: #333;">Ulasan Pembeli</h4>
+                    <div id="reviewsContainer">
+                        <!-- Ulasan akan ditampilkan di sini -->
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-chat" onclick="startChat('${product.seller}', ${product.id})">
+                        <i class="fas fa-comment"></i> Chat Penjual
+                    </button>
+                </div>
+            `;
+
+            loadReviews();
+        }
+
+        function setupRatingStars() {
+            const stars = document.querySelectorAll('.star-input');
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    selectedRating = rating;
+                    
+                    // Update stars appearance
+                    stars.forEach(s => {
+                        if (parseInt(s.getAttribute('data-rating')) <= rating) {
+                            s.classList.add('active');
+                        } else {
+                            s.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        }
+
+        function generateStars(rating) {
+            const stars = [];
+            const filledStars = Math.floor(rating / 20);
+            const emptyStars = 5 - filledStars;
+            
+            for (let i = 0; i < filledStars; i++) {
+                stars.push('<i class="fas fa-star rating-star"></i>');
+            }
+            for (let i = 0; i < emptyStars; i++) {
+                stars.push('<i class="far fa-star rating-star"></i>');
+            }
+            
+            return stars.join('');
+        }
+
+        function generateReviewStars(count) {
+            const stars = [];
+            for (let i = 0; i < 5; i++) {
+                if (i < count) {
+                    stars.push('<i class="fas fa-star review-star"></i>');
+                } else {
+                    stars.push('<i class="far fa-star review-star"></i>');
+                }
+            }
+            return stars.join('');
+        }
+
+        function calculateProductRating(productId) {
+            const allRatings = JSON.parse(localStorage.getItem('skyIslandRatings') || '[]');
+            const productRatings = allRatings.filter(rating => rating.productId === productId);
+            
+            if (productRatings.length === 0) {
+                return { average: 0, count: 0 };
+            }
+            
+            const totalRating = productRatings.reduce((sum, rating) => sum + rating.stars, 0);
+            const averageRating = Math.round((totalRating / productRatings.length) * 20);
+            
+            return { average: averageRating, count: productRatings.length };
+        }
+
+        function loadReviews() {
+            const allRatings = JSON.parse(localStorage.getItem('skyIslandRatings') || '[]');
+            const productReviews = allRatings.filter(rating => rating.productId === currentProductId);
+
+            const container = document.getElementById('reviewsContainer');
+            container.innerHTML = '';
+
+            if (productReviews.length === 0) {
+                container.innerHTML = '<div class="no-reviews">Belum ada ulasan untuk produk ini</div>';
+                return;
+            }
+
+            // Sort reviews by date (newest first)
+            productReviews.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            productReviews.forEach(review => {
+                const reviewElement = document.createElement('div');
+                reviewElement.className = 'review-item';
+                reviewElement.innerHTML = `
+                    <div class="review-header">
+                        <div class="review-user">${review.userId}</div>
+                        <div class="review-rating">
+                            ${generateReviewStars(review.stars)}
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        ${review.comment || 'Tidak ada komentar'}
+                    </div>
+                    <div class="review-date">
+                        ${formatDate(review.timestamp)}
+                    </div>
+                    ${review.reply ? `
+                        <div style="margin-top: 10px; padding: 10px; background: #e3f2fd; border-radius: 6px; border-left: 4px solid #1a2980;">
+                            <div style="font-weight: 600; color: #1a2980; margin-bottom: 5px;">Balasan Penjual:</div>
+                            <div>${review.reply}</div>
+                        </div>
+                    ` : ''}
+                `;
+                container.appendChild(reviewElement);
+            });
+        }
+
+        function submitReview() {
+            const currentUser = localStorage.getItem('skyIslandCurrentUser');
+            
+            if (!currentUser) {
+                alert('Silakan login terlebih dahulu untuk memberikan ulasan!');
+                window.location.href = 'akun.html';
+                return;
+            }
+
+            if (selectedRating === 0) {
+                alert('Pilih rating terlebih dahulu!');
+                return;
+            }
+
+            const reviewText = document.getElementById('reviewText').value.trim();
+            
+            // Cek apakah user sudah memberikan ulasan untuk produk ini
+            const allRatings = JSON.parse(localStorage.getItem('skyIslandRatings') || '[]');
+            const existingReview = allRatings.find(rating => 
+                rating.productId === currentProductId && rating.userId === currentUser
+            );
+
+            if (existingReview) {
+                alert('Anda sudah memberikan ulasan untuk produk ini!');
+                return;
+            }
+
+            const review = {
+                id: Date.now(),
+                productId: currentProductId,
+                userId: currentUser,
+                stars: selectedRating,
+                comment: reviewText,
+                timestamp: new Date().toISOString(),
+                reply: null,
+                replyDate: null
+            };
+
+            allRatings.push(review);
+            localStorage.setItem('skyIslandRatings', JSON.stringify(allRatings));
+
+            // Reset form
+            selectedRating = 0;
+            document.getElementById('reviewText').value = '';
+            const stars = document.querySelectorAll('.star-input');
+            stars.forEach(star => star.classList.remove('active'));
+
+            alert('Ulasan berhasil dikirim!');
+            loadProductDetail(); // Reload untuk update rating dan ulasan
+        }
+
+        function viewSellerProfile(sellerUsername) {
+            window.location.href = `seller-profile.html?seller=${sellerUsername}`;
+        }
+
+        function startChat(sellerUsername, productId) {
+            const currentUser = localStorage.getItem('skyIslandCurrentUser');
+            
+            if (!currentUser) {
+                alert('Silakan login terlebih dahulu!');
+                window.location.href = 'akun.html';
+                return;
+            }
+
+            if (currentUser === sellerUsername) {
+                alert('Anda tidak bisa chat dengan diri sendiri!');
+                return;
+            }
+
+            // Cari atau buat chat baru
+            const allChats = JSON.parse(localStorage.getItem('skyIslandChats') || '[]');
+            let existingChat = allChats.find(chat => 
+                ((chat.seller === sellerUsername && chat.buyer === currentUser) ||
+                 (chat.seller === currentUser && chat.buyer === sellerUsername)) &&
+                chat.productId === productId
+            );
+
+            if (!existingChat) {
+                // Buat chat baru
+                const newChat = {
+                    id: Date.now(),
+                    seller: sellerUsername,
+                    buyer: currentUser,
+                    productId: productId,
+                    messages: [
+                        {
+                            sender: currentUser,
+                            text: `Halo, saya tertarik dengan produk ${getProductName(productId)}`,
+                            timestamp: new Date().toISOString(),
+                            type: 'text'
+                        }
+                    ]
+                };
+                allChats.push(newChat);
+                localStorage.setItem('skyIslandChats', JSON.stringify(allChats));
+                existingChat = newChat;
+            }
+
+            // Redirect ke halaman chat
+            window.location.href = `chat.html?id=${existingChat.id}`;
+        }
+
+        function getProductName(productId) {
+            const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            const product = allProducts.find(p => p.id === productId);
+            return product ? product.name : 'produk ini';
+        }
+
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Bottom navigation active state
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

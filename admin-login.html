@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Admin Login - Sky Island</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo h1 {
+            color: #1a2980;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .security-notice {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #1a2980;
+            outline: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-top: 8px;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-back {
+            background: #6c757d;
+            margin-top: 15px;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1><i class="fas fa-shield-alt"></i> Admin Access</h1>
+            <p>Halaman login khusus developer</p>
+        </div>
+
+        <div class="security-notice">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>Peringatan Keamanan:</strong> Hanya personel yang berwenang yang boleh mengakses halaman ini.
+        </div>
+
+        <form id="adminLoginForm">
+            <div class="form-group">
+                <label for="adminUsername">Username Developer</label>
+                <input type="text" id="adminUsername" required>
+            </div>
+            <div class="form-group">
+                <label for="adminPassword">Password</label>
+                <input type="password" id="adminPassword" required>
+            </div>
+            <div class="error" id="adminError">Username atau password salah</div>
+            <button type="submit" class="btn">Login sebagai Developer</button>
+            <button type="button" class="btn btn-back" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i> Kembali ke Login Biasa
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Daftar developer yang diizinkan (bisa disimpan lebih aman)
+        const authorizedDevelopers = [
+            {
+                username: 'ShiiroDev',
+                password: '112011Ff', // Dalam production, ini harus hashed
+                name: 'Shiiro Developer'
+            }
+            // Bisa tambahkan developer lain di sini
+        ];
+
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+
+            // Cari developer yang authorized
+            const developer = authorizedDevelopers.find(dev => 
+                dev.username === username && dev.password === password
+            );
+
+            if (developer) {
+                // Simpan ke localStorage
+                const users = JSON.parse(localStorage.getItem('skyIslandUsers') || '[]');
+                let user = users.find(u => u.username === username);
+                
+                if (!user) {
+                    // Buat user developer jika belum ada
+                    user = {
+                        username: username,
+                        password: password,
+                        referralCode: 'DEV2024',
+                        joinedDate: new Date().toISOString(),
+                        isActive: true,
+                        isDeveloper: true,
+                        profileImage: '',
+                        storeName: 'Developer Store'
+                    };
+                    users.push(user);
+                    localStorage.setItem('skyIslandUsers', JSON.stringify(users));
+                } else {
+                    // Update existing user menjadi developer
+                    user.isDeveloper = true;
+                    localStorage.setItem('skyIslandUsers', JSON.stringify(users));
+                }
+
+                localStorage.setItem('skyIslandCurrentUser', username);
+                alert('Login sebagai Developer berhasil!');
+                window.location.href = 'akun.html';
+            } else {
+                document.getElementById('adminError').style.display = 'block';
+            }
+        });
+
+        function goBack() {
+            window.location.href = 'register.html';
+        }
+
+        // Cek jika sudah login
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('skyIslandCurrentUser');
+            if (currentUser) {
+                window.location.href = 'akun.html';
+                return;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Developer Tools - Sky Island</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            min-height: 100vh;
+            padding: 16px;
+            padding-bottom: 100px;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo h1 {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .dev-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .dev-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .dev-info {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .dev-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dev-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .dev-role {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .tool-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tool-item:active {
+            transform: scale(0.98);
+        }
+
+        .tool-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #26d0ce;
+        }
+
+        .tool-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .upload-form, .vip-form, .referral-form {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .form-group input::placeholder, .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 150px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            display: none;
+        }
+
+        .btn {
+            padding: 12px;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .btn-vip {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+        }
+
+        .ads-list, .vip-list, .referral-list {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .ad-item, .vip-item, .referral-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ad-image, .vip-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .ad-info, .vip-info, .referral-info {
+            flex: 1;
+        }
+
+        .ad-title, .vip-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .ad-desc, .vip-desc {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .referral-code {
+            font-family: monospace;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .stats-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .stats-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: 700;
+            color: #26d0ce;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .logout-btn:active {
+            transform: scale(0.98);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 90;
+            max-width: 95%;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0 4px;
+            position: relative;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item span {
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(26, 41, 128, 0.4);
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+                padding-bottom: 90px;
+            }
+            
+            .header {
+                padding: 12px;
+                border-radius: 16px;
+            }
+            
+            .dev-card {
+                padding: 15px;
+                border-radius: 16px;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-item {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .nav-item i {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .nav-item {
+                width: 45px;
+                height: 45px;
+                margin: 0 3px;
+            }
+            
+            .nav-item i {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Logo Sky Island">
+                <h1>Developer Tools</h1>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-code"></i>
+                </div>
+                <span>Developer</span>
+            </div>
+        </div>
+        
+        <!-- Developer Card -->
+        <div class="dev-card">
+            <h2 class="dev-title">Developer Dashboard</h2>
+            
+            <div class="dev-info">
+                <div class="dev-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="dev-name">ShiiroDev</div>
+                <div class="dev-role">Sky Island Developer</div>
+            </div>
+
+            <!-- Developer Tools -->
+            <div class="tools-grid">
+                <div class="tool-item" onclick="showUploadForm()">
+                    <div class="tool-icon">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <div class="tool-name">Upload Iklan</div>
+                </div>
+                <div class="tool-item" onclick="showVIPForm()">
+                    <div class="tool-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="tool-name">Tambah Produk VIP</div>
+                </div>
+                <div class="tool-item" onclick="showReferralForm()">
+                    <div class="tool-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="tool-name">Kelola Referral</div>
+                </div>
+                <div class="tool-item" onclick="showAdsList()">
+                    <div class="tool-icon">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                    <div class="tool-name">Hapus Iklan</div>
+                </div>
+                <div class="tool-item" onclick="showVIPList()">
+                    <div class="tool-icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <div class="tool-name">Lihat/Hapus Produk VIP</div>
+                </div>
+                <div class="tool-item" onclick="showReferralList()">
+                    <div class="tool-icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <div class="tool-name">Lihat/Hapus Referral</div>
+                </div>
+                <div class="tool-item" onclick="viewStats()">
+                    <div class="tool-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="tool-name">Statistik</div>
+                </div>
+            </div>
+
+            <!-- Upload Iklan Form -->
+            <div class="upload-form" id="uploadForm">
+                <h3 style="text-align: center; margin-bottom: 15px;">Upload Iklan Baru</h3>
+                <div class="form-group">
+                    <label for="adTitle">Judul Iklan</label>
+                    <input type="text" id="adTitle" placeholder="Masukkan judul iklan">
+                </div>
+                <div class="form-group">
+                    <label for="adDescription">Deskripsi</label>
+                    <textarea id="adDescription" placeholder="Masukkan deskripsi iklan"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="adImage">Gambar Iklan</label>
+                    <input type="file" id="adImage" accept="image/*">
+                    <div class="image-preview">
+                        <img id="adImagePreview" src="" alt="Preview">
+                        <span id="previewText">Preview Gambar</span>
+                    </div>
+                </div>
+                <button class="btn" onclick="uploadAd()">Upload Iklan</button>
+                <button class="btn btn-danger" onclick="hideForms()">Batal</button>
+            </div>
+
+            <!-- Tambah Produk VIP Form -->
+            <div class="vip-form" id="vipForm">
+                <h3 style="text-align: center; margin-bottom: 15px;">Tambah Produk VIP</h3>
+                <div class="form-group">
+                    <label for="vipProduct">Pilih Produk</label>
+                    <select id="vipProduct">
+                        <option value="">Pilih produk...</option>
+                    </select>
+                </div>
+                <button class="btn btn-vip" onclick="addVIPProduct()">Jadikan VIP</button>
+                <button class="btn btn-danger" onclick="hideForms()">Batal</button>
+            </div>
+
+            <!-- Kelola Referral Form -->
+            <div class="referral-form" id="referralForm">
+                <h3 style="text-align: center; margin-bottom: 15px;">Kelola Referral Code</h3>
+                <div class="form-group">
+                    <label for="newReferralCode">Kode Referral Baru</label>
+                    <input type="text" id="newReferralCode" placeholder="Masukkan kode referral" maxlength="10">
+                </div>
+                <button class="btn" onclick="addReferralCode()">Tambah Referral</button>
+                <button class="btn btn-danger" onclick="hideForms()">Batal</button>
+            </div>
+
+            <!-- Daftar Iklan -->
+            <div class="ads-list" id="adsList">
+                <h3 style="text-align: center; margin-bottom: 15px;">Daftar Iklan</h3>
+                <div id="adsContainer">
+                    <!-- Iklan akan ditampilkan di sini -->
+                </div>
+                <button class="btn btn-danger" onclick="hideForms()" style="margin-top: 10px;">Tutup</button>
+            </div>
+
+            <!-- Daftar Produk VIP -->
+            <div class="vip-list" id="vipList">
+                <h3 style="text-align: center; margin-bottom: 15px;">Produk VIP</h3>
+                <div id="vipContainer">
+                    <!-- Produk VIP akan ditampilkan di sini -->
+                </div>
+                <button class="btn btn-danger" onclick="hideForms()" style="margin-top: 10px;">Tutup</button>
+            </div>
+
+            <!-- Daftar Referral -->
+            <div class="referral-list" id="referralList">
+                <h3 style="text-align: center; margin-bottom: 15px;">Kode Referral</h3>
+                <div id="referralContainer">
+                    <!-- Referral codes akan ditampilkan di sini -->
+                </div>
+                <button class="btn btn-danger" onclick="hideForms()" style="margin-top: 10px;">Tutup</button>
+            </div>
+
+            <!-- Statistics -->
+            <div class="stats-section">
+                <h3 class="stats-title">Statistik Sistem</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalUsers">0</div>
+                        <div class="stat-label">Total User</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalProducts">0</div>
+                        <div class="stat-label">Total Produk</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalVIP">0</div>
+                        <div class="stat-label">Produk VIP</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalReferrals">0</div>
+                        <div class="stat-label">Kode Referral</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="logout-btn" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i> Kembali ke Akun
+            </button>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="credit.html" class="nav-item">
+            <i class="fas fa-coins"></i>
+            <span>Credit</span>
+        </a>
+        <a href="pencarian.html" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Pencarian</span>
+        </a>
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="store.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Store</span>
+        </a>
+        <a href="akun.html" class="nav-item active">
+            <i class="fas fa-user"></i>
+            <span>Akun</span>
+        </a>
+    </div>
+
+    <script>
+        let adImageBase64 = '';
+
+        // Cek apakah user adalah developer
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('skyIslandCurrentUser');
+            const users = JSON.parse(localStorage.getItem('skyIslandUsers') || '[]');
+            const user = users.find(u => u.username === currentUser);
+            
+            if (!user || !user.isDeveloper) {
+                window.location.href = 'akun.html';
+                return;
+            }
+
+            setupImagePreview();
+            loadStats();
+        });
+
+        function setupImagePreview() {
+            document.getElementById('adImage').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        adImageBase64 = e.target.result;
+                        document.getElementById('adImagePreview').src = adImageBase64;
+                        document.getElementById('adImagePreview').style.display = 'block';
+                        document.getElementById('previewText').style.display = 'none';
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function showUploadForm() {
+            hideForms();
+            document.getElementById('uploadForm').style.display = 'block';
+        }
+
+        function showVIPForm() {
+            hideForms();
+            document.getElementById('vipForm').style.display = 'block';
+            loadProductsForVIP();
+        }
+
+        function showReferralForm() {
+            hideForms();
+            document.getElementById('referralForm').style.display = 'block';
+        }
+
+        function showAdsList() {
+            hideForms();
+            document.getElementById('adsList').style.display = 'block';
+            loadAdsList();
+        }
+
+        function showVIPList() {
+            hideForms();
+            document.getElementById('vipList').style.display = 'block';
+            loadVIPList();
+        }
+
+        function showReferralList() {
+            hideForms();
+            document.getElementById('referralList').style.display = 'block';
+            loadReferralList();
+        }
+
+        function hideForms() {
+            document.getElementById('uploadForm').style.display = 'none';
+            document.getElementById('vipForm').style.display = 'none';
+            document.getElementById('referralForm').style.display = 'none';
+            document.getElementById('adsList').style.display = 'none';
+            document.getElementById('vipList').style.display = 'none';
+            document.getElementById('referralList').style.display = 'none';
+        }
+
+        function uploadAd() {
+            const title = document.getElementById('adTitle').value;
+            const description = document.getElementById('adDescription').value;
+
+            if (!title || !description || !adImageBase64) {
+                alert('Harap isi semua field dan upload gambar!');
+                return;
+            }
+
+            const ads = JSON.parse(localStorage.getItem('skyIslandSlides') || '[]');
+            const newAd = {
+                id: Date.now(),
+                title: title,
+                description: description,
+                imageUrl: adImageBase64,
+                content: description,
+                date: new Date().toISOString()
+            };
+
+            ads.push(newAd);
+            localStorage.setItem('skyIslandSlides', JSON.stringify(ads));
+
+            // Reset form
+            document.getElementById('adTitle').value = '';
+            document.getElementById('adDescription').value = '';
+            document.getElementById('adImage').value = '';
+            document.getElementById('adImagePreview').style.display = 'none';
+            document.getElementById('previewText').style.display = 'block';
+            adImageBase64 = '';
+
+            alert('Iklan berhasil diupload!');
+            hideForms();
+            loadStats();
+        }
+
+        function loadProductsForVIP() {
+            const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            const nonVIPProducts = allProducts.filter(product => !product.isVIP);
+            const select = document.getElementById('vipProduct');
+            
+            select.innerHTML = '<option value="">Pilih produk...</option>';
+            nonVIPProducts.forEach(product => {
+                const option = document.createElement('option');
+                option.value = product.id;
+                option.textContent = `${product.name} - Rp ${product.price.toLocaleString()}`;
+                select.appendChild(option);
+            });
+        }
+
+        function addVIPProduct() {
+            const productId = parseInt(document.getElementById('vipProduct').value);
+            if (!productId) {
+                alert('Pilih produk terlebih dahulu!');
+                return;
+            }
+
+            const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            const productIndex = allProducts.findIndex(p => p.id === productId);
+            
+            if (productIndex !== -1) {
+                allProducts[productIndex].isVIP = true;
+                localStorage.setItem('skyIslandProducts', JSON.stringify(allProducts));
+                alert('Produk berhasil dijadikan VIP!');
+                hideForms();
+                loadStats();
+            }
+        }
+
+        function addReferralCode() {
+            const code = document.getElementById('newReferralCode').value.trim().toUpperCase();
+            if (!code) {
+                alert('Masukkan kode referral!');
+                return;
+            }
+
+            if (code.length < 3) {
+                alert('Kode referral minimal 3 karakter!');
+                return;
+            }
+
+            const referrals = JSON.parse(localStorage.getItem('skyIslandReferrals') || '[]');
+            
+            // Cek apakah kode sudah ada
+            if (referrals.find(ref => ref.code === code)) {
+                alert('Kode referral sudah ada!');
+                return;
+            }
+
+            const newReferral = {
+                code: code,
+                createdAt: new Date().toISOString(),
+                used: false
+            };
+
+            referrals.push(newReferral);
+            localStorage.setItem('skyIslandReferrals', JSON.stringify(referrals));
+
+            document.getElementById('newReferralCode').value = '';
+            alert('Kode referral berhasil ditambahkan!');
+            loadStats();
+        }
+
+        function loadAdsList() {
+            const ads = JSON.parse(localStorage.getItem('skyIslandSlides') || '[]');
+            const container = document.getElementById('adsContainer');
+            container.innerHTML = '';
+
+            if (ads.length === 0) {
+                container.innerHTML = '<p style="text-align: center; opacity: 0.7;">Belum ada iklan</p>';
+                return;
+            }
+
+            ads.forEach(ad => {
+                const adElement = document.createElement('div');
+                adElement.className = 'ad-item';
+                adElement.innerHTML = `
+                    <img src="${ad.imageUrl}" alt="${ad.title}" class="ad-image">
+                    <div class="ad-info">
+                        <div class="ad-title">${ad.title}</div>
+                        <div class="ad-desc">${ad.description.substring(0, 50)}...</div>
+                    </div>
+                    <button class="delete-btn" onclick="deleteAd(${ad.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                container.appendChild(adElement);
+            });
+        }
+
+        function loadVIPList() {
+            const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            const vipProducts = allProducts.filter(product => product.isVIP === true);
+            const container = document.getElementById('vipContainer');
+            container.innerHTML = '';
+
+            if (vipProducts.length === 0) {
+                container.innerHTML = '<p style="text-align: center; opacity: 0.7;">Belum ada produk VIP</p>';
+                return;
+            }
+
+            vipProducts.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.className = 'vip-item';
+                productElement.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="vip-image">
+                    <div class="vip-info">
+                        <div class="vip-title">${product.name} 👑</div>
+                        <div class="vip-desc">Rp ${product.price.toLocaleString()} - ${product.seller}</div>
+                    </div>
+                    <button class="delete-btn" onclick="removeVIP(${product.id})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                container.appendChild(productElement);
+            });
+        }
+
+        function loadReferralList() {
+            const referrals = JSON.parse(localStorage.getItem('skyIslandReferrals') || '[]');
+            const container = document.getElementById('referralContainer');
+            container.innerHTML = '';
+
+            if (referrals.length === 0) {
+                container.innerHTML = '<p style="text-align: center; opacity: 0.7;">Belum ada kode referral</p>';
+                return;
+            }
+
+            referrals.forEach(referral => {
+                const referralElement = document.createElement('div');
+                referralElement.className = 'referral-item';
+                referralElement.innerHTML = `
+                    <div class="referral-info">
+                        <div class="ad-title">Kode: <span class="referral-code">${referral.code}</span></div>
+                        <div class="ad-desc">Dibuat: ${new Date(referral.createdAt).toLocaleDateString('id-ID')}</div>
+                        <div class="ad-desc">Status: ${referral.used ? 'Sudah digunakan' : 'Belum digunakan'}</div>
+                    </div>
+                    <button class="delete-btn" onclick="deleteReferral('${referral.code}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                container.appendChild(referralElement);
+            });
+        }
+
+        function deleteAd(adId) {
+            if (confirm('Apakah Anda yakin ingin menghapus iklan ini?')) {
+                const ads = JSON.parse(localStorage.getItem('skyIslandSlides') || '[]');
+                const filteredAds = ads.filter(ad => ad.id !== adId);
+                localStorage.setItem('skyIslandSlides', JSON.stringify(filteredAds));
+                
+                alert('Iklan berhasil dihapus!');
+                loadAdsList();
+                loadStats();
+            }
+        }
+
+        function removeVIP(productId) {
+            if (confirm('Apakah Anda yakin ingin menghapus produk dari VIP?')) {
+                const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+                const productIndex = allProducts.findIndex(p => p.id === productId);
+                
+                if (productIndex !== -1) {
+                    allProducts[productIndex].isVIP = false;
+                    localStorage.setItem('skyIslandProducts', JSON.stringify(allProducts));
+                    
+                    alert('Produk berhasil dihapus dari VIP!');
+                    loadVIPList();
+                    loadStats();
+                }
+            }
+        }
+
+        function deleteReferral(code) {
+            if (confirm('Apakah Anda yakin ingin menghapus kode referral ini?')) {
+                const referrals = JSON.parse(localStorage.getItem('skyIslandReferrals') || '[]');
+                const filteredReferrals = referrals.filter(ref => ref.code !== code);
+                localStorage.setItem('skyIslandReferrals', JSON.stringify(filteredReferrals));
+                
+                alert('Kode referral berhasil dihapus!');
+                loadReferralList();
+                loadStats();
+            }
+        }
+
+        function loadStats() {
+            // Total Users
+            const users = JSON.parse(localStorage.getItem('skyIslandUsers') || '[]');
+            document.getElementById('totalUsers').textContent = users.length;
+
+            // Total Products
+            const products = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            document.getElementById('totalProducts').textContent = products.length;
+
+            // Total VIP Products
+            const vipProducts = products.filter(product => product.isVIP === true);
+            document.getElementById('totalVIP').textContent = vipProducts.length;
+
+            // Total Referrals
+            const referrals = JSON.parse(localStorage.getItem('skyIslandReferrals') || '[]');
+            document.getElementById('totalReferrals').textContent = referrals.length;
+        }
+
+        function viewStats() {
+            alert('Menampilkan statistik lengkap...');
+            loadStats();
+        }
+
+        function goBack() {
+            window.location.href = 'akun.html';
+        }
+
+        // Bottom navigation active state
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

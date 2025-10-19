@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Profil Saya - Sky Island</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            min-height: 100vh;
+            padding: 16px;
+            padding-bottom: 100px;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo h1 {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: center;
+        }
+
+        .profile-card.developer {
+            border: 2px solid #FFD700;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.15));
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            margin: 0 auto 20px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .developer .profile-image {
+            border-color: #FFD700;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .profile-status {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .profile-status.developer {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            border: 2px solid #000;
+        }
+
+        .profile-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .developer .profile-info {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid #FFD700;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .developer-features {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .developer-features h4 {
+            color: #FFD700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .feature-list i {
+            color: #FFD700;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            color: white;
+            text-align: center;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+        }
+
+        .btn-tools {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            border: 2px solid #000;
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 90;
+            max-width: 95%;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0 4px;
+            position: relative;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item span {
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(26, 41, 128, 0.4);
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        /* Modal Edit Profil */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalFade 0.3s ease;
+        }
+
+        @keyframes modalFade {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a2980;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .modal-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+        }
+
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+        }
+
+        .login-prompt {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: center;
+            display: none;
+        }
+
+        .login-prompt h2 {
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .login-prompt p {
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .btn-login:active {
+            transform: scale(0.98);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+                padding-bottom: 90px;
+            }
+            
+            .header {
+                padding: 12px;
+                border-radius: 16px;
+            }
+            
+            .profile-card {
+                padding: 20px;
+                border-radius: 16px;
+            }
+            
+            .profile-image {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-item {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .nav-item i {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Logo Sky Island">
+                <h1>Profil Saya</h1>
+            </div>
+        </div>
+        
+        <!-- Profile Card (Tampil jika sudah login) -->
+        <div class="profile-card" id="profileCard">
+            <div class="profile-image" id="profileImageContainer" onclick="document.getElementById('profileImageInput').click()">
+                <i class="fas fa-user" id="profileIcon"></i>
+                <img id="profileImage" src="" alt="Profile">
+            </div>
+            <input type="file" id="profileImageInput" class="file-input" accept="image/*">
+            
+            <div class="profile-name" id="profileName">Loading...</div>
+            <div class="profile-status" id="profileStatus">Loading...</div>
+            
+            <!-- Developer Features (Hanya tampil untuk developer) -->
+            <div class="developer-features" id="developerFeatures" style="display: none;">
+                <h4><i class="fas fa-crown"></i> Fitur Developer</h4>
+                <ul class="feature-list">
+                    <li><i class="fas fa-upload"></i> Upload iklan & konten</li>
+                    <li><i class="fas fa-crown"></i> Kelola produk VIP</li>
+                    <li><i class="fas fa-code"></i> Akses tools developer</li>
+                    <li><i class="fas fa-chart-bar"></i> Statistik sistem</li>
+                </ul>
+            </div>
+            
+            <div class="profile-info">
+                <div class="info-item">
+                    <div class="info-label">Username</div>
+                    <div class="info-value" id="infoUsername">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Store</div>
+                    <div class="info-value" id="infoStore">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Bergabung</div>
+                    <div class="info-value" id="infoJoined">-</div>
+                </div>
+                <div class="info-item" id="referralItem" style="display: none;">
+                    <div class="info-label">Kode Referral</div>
+                    <div class="info-value" id="infoReferral">-</div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-edit" onclick="showEditModal()">
+                    <i class="fas fa-edit"></i> Edit Profil
+                </button>
+                <button class="btn btn-tools" id="toolsButton" style="display: none;" onclick="goToTools()">
+                    <i class="fas fa-tools"></i> Developer Tools
+                </button>
+                <button class="btn btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Login Prompt (Tampil jika belum login) -->
+        <div class="login-prompt" id="loginPrompt">
+            <h2>Anda Belum Login</h2>
+            <p>Silakan login atau daftar untuk mengakses profil Anda</p>
+            <a href="register.html" class="btn-login">
+                <i class="fas fa-user-plus"></i> Login / Daftar
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal Edit Profil -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Profil</h2>
+                <button class="close-btn" onclick="hideEditModal()">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="editStoreName">Nama Store</label>
+                <input type="text" id="editStoreName" placeholder="Masukkan nama store">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn-save" onclick="saveProfile()">Simpan</button>
+                <button class="btn btn-cancel" onclick="hideEditModal()">Batal</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="credit.html" class="nav-item">
+            <i class="fas fa-coins"></i>
+            <span>Credit</span>
+        </a>
+        <a href="pencarian.html" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Pencarian</span>
+        </a>
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="store.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Store</span>
+        </a>
+        <a href="akun.html" class="nav-item active">
+            <i class="fas fa-user"></i>
+            <span>Akun</span>
+        </a>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let userData = null;
+
+        function loadProfile() {
+            currentUser = localStorage.getItem('skyIslandCurrentUser');
+            
+            if (!currentUser) {
+                // Tampilkan prompt login
+                document.getElementById('profileCard').style.display = 'none';
+                document.getElementById('loginPrompt').style.display = 'block';
+                return;
+            }
+
+            // Sembunyikan prompt login, tampilkan profil
+            document.getElementById('profileCard').style.display = 'block';
+            document.getElementById('loginPrompt').style.display = 'none';
+
+            const users = JSON.parse(localStorage.getItem('skyIslandUsers') || '[]');
+            userData = users.find(user => user.username === currentUser);
+
+            if (!userData) {
+                // Jika data user tidak ditemukan, logout
+                logout();
+                return;
+            }
+
+            // Update UI dengan data user
+            document.getElementById('profileName').textContent = userData.username;
+            document.getElementById('infoUsername').textContent = userData.username;
+            document.getElementById('infoStore').textContent = userData.storeName || 'Toko ' + userData.username;
+            document.getElementById('infoJoined').textContent = new Date(userData.joinedDate).toLocaleDateString('id-ID');
+            
+            // Tampilkan kode referral jika ada
+            if (userData.referralCode) {
+                document.getElementById('infoReferral').textContent = userData.referralCode;
+                document.getElementById('referralItem').style.display = 'flex';
+            }
+
+            // Set status dan tampilan berdasarkan role
+            const statusElement = document.getElementById('profileStatus');
+            const profileCard = document.getElementById('profileCard');
+            
+            if (userData.isDeveloper) {
+                // Tampilan Developer
+                statusElement.textContent = 'Developer';
+                statusElement.classList.add('developer');
+                document.getElementById('toolsButton').style.display = 'block';
+                document.getElementById('developerFeatures').style.display = 'block';
+                profileCard.classList.add('developer');
+                
+                // Set icon khusus untuk developer
+                document.getElementById('profileIcon').className = 'fas fa-code';
+            } else {
+                // Tampilan Pengguna Biasa
+                statusElement.textContent = 'Pengguna Biasa';
+                statusElement.classList.remove('developer');
+                document.getElementById('toolsButton').style.display = 'none';
+                document.getElementById('developerFeatures').style.display = 'none';
+                profileCard.classList.remove('developer');
+                
+                // Set icon biasa
+                document.getElementById('profileIcon').className = 'fas fa-user';
+            }
+
+            // Set profile image
+            if (userData.profileImage) {
+                document.getElementById('profileImage').src = userData.profileImage;
+                document.getElementById('profileImage').style.display = 'block';
+                document.getElementById('profileIcon').style.display = 'none';
+            } else {
+                document.getElementById('profileImage').style.display = 'none';
+                document.getElementById('profileIcon').style.display = 'flex';
+            }
+        }
+
+        function showEditModal() {
+            document.getElementById('editStoreName').value = userData.storeName || 'Toko ' + userData.username;
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        function hideEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        function saveProfile() {
+            const newStoreName = document.getElementById('editStoreName').value.trim();
+            if (!newStoreName) {
+                alert('Nama store tidak boleh kosong!');
+                return;
+            }
+
+            // Update user data
+            const users = JSON.parse(localStorage.getItem('skyIslandUsers') || '[]');
+            const userIndex = users.findIndex(user => user.username === currentUser);
+            
+            if (userIndex !== -1) {
+                users[userIndex].storeName = newStoreName;
+                localStorage.setItem('skyIslandUsers', JSON.stringify(users));
+                userData.storeName = newStoreName;
+                
+                document.getElementById('infoStore').textContent = newStoreName;
+                hideEditModal();
+                alert('Profil berhasil diperbarui!');
+            }
+        }
+
+        // Handle profile image upload
+        document.getElementById('profileImageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+                    
+                    // Update user data
+                    const users = JSON.parse(localStorage.getItem('skyIslandUsers') || '[]');
+                    const userIndex = users.findIndex(user => user.username === currentUser);
+                    
+                    if (userIndex !== -1) {
+                        users[userIndex].profileImage = imageData;
+                        localStorage.setItem('skyIslandUsers', JSON.stringify(users));
+                        userData.profileImage = imageData;
+                        
+                        // Update UI
+                        document.getElementById('profileImage').src = imageData;
+                        document.getElementById('profileImage').style.display = 'block';
+                        document.getElementById('profileIcon').style.display = 'none';
+                        
+                        alert('Foto profil berhasil diubah!');
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function goToTools() {
+            window.location.href = 'tools.html';
+        }
+
+        function logout() {
+            localStorage.removeItem('skyIslandCurrentUser');
+            loadProfile(); // Reload untuk menampilkan prompt login
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfile();
+        });
+
+        // Bottom navigation active state
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

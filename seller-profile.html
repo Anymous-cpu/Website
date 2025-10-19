@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Profil Penjual - Sky Island</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            min-height: 100vh;
+            padding: 16px;
+            padding-bottom: 100px;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .header h1 {
+            color: #1a2980;
+            font-size: 22px;
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: transform 0.3s;
+        }
+
+        .back-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Seller Info */
+        .seller-info {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .seller-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 40px;
+            color: white;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .seller-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            display: none;
+        }
+
+        .seller-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a2980;
+            margin-bottom: 5px;
+        }
+
+        .seller-store {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .seller-bio {
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        /* Social Media */
+        .social-media {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .social-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .social-icon:active {
+            transform: scale(0.95);
+        }
+
+        .seller-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a2980;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #666;
+        }
+
+        /* Posts Section */
+        .posts-section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a2980;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .post-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .post-item:active {
+            transform: scale(0.95);
+        }
+
+        .post-media {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        /* Products Section */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .product-card:active {
+            transform: scale(0.95);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 10px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 13px;
+            margin-bottom: 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-price {
+            color: #e74c3c;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .no-content {
+            text-align: center;
+            color: #666;
+            padding: 30px 20px;
+            font-size: 14px;
+            grid-column: 1 / -1;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 90;
+            max-width: 95%;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0 4px;
+            position: relative;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item span {
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(26, 41, 128, 0.4);
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+                padding-bottom: 90px;
+            }
+            
+            .container {
+                padding: 15px;
+                border-radius: 16px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .seller-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 30px;
+            }
+            
+            .posts-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+            
+            .nav-item {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .nav-item i {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Profil Penjual</h1>
+            <a href="javascript:history.back()" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
+        </div>
+
+        <div class="seller-info" id="sellerInfo">
+            <!-- Seller info akan diisi oleh JavaScript -->
+        </div>
+
+        <div class="posts-section">
+            <h3 class="section-title">
+                <i class="fas fa-images"></i>
+                Postingan
+            </h3>
+            <div class="posts-grid" id="sellerPosts">
+                <!-- Postingan penjual akan ditampilkan di sini -->
+            </div>
+        </div>
+
+        <div class="products-section">
+            <h3 class="section-title">
+                <i class="fas fa-box"></i>
+                Produk yang Dijual
+            </h3>
+            <div class="products-grid" id="sellerProducts">
+                <!-- Produk penjual akan ditampilkan di sini -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="credit.html" class="nav-item">
+            <i class="fas fa-coins"></i>
+            <span>Credit</span>
+        </a>
+        <a href="pencarian.html" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Pencarian</span>
+        </a>
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="store.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Store</span>
+        </a>
+        <a href="akun.html" class="nav-item active">
+            <i class="fas fa-user"></i>
+            <span>Akun</span>
+        </a>
+    </div>
+
+    <script>
+        let currentSeller = '';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get seller from URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            currentSeller = urlParams.get('seller');
+            
+            if (!currentSeller) {
+                window.location.href = 'pencarian.html';
+                return;
+            }
+
+            loadSellerProfile();
+            loadSellerPosts();
+            loadSellerProducts();
+        });
+
+        function loadSellerProfile() {
+            const users = JSON.parse(localStorage.getItem('skyIslandUsers') || '[]');
+            const seller = users.find(user => user.username === currentSeller);
+            const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            const allPosts = JSON.parse(localStorage.getItem('skyIslandPosts') || '[]');
+            const allRatings = JSON.parse(localStorage.getItem('skyIslandRatings') || '[]');
+
+            const sellerProducts = allProducts.filter(product => product.seller === currentSeller);
+            const sellerPosts = allPosts.filter(post => post.username === currentSeller);
+            
+            // Calculate average rating
+            let totalRating = 0;
+            let ratingCount = 0;
+            
+            sellerProducts.forEach(product => {
+                const productRatings = allRatings.filter(rating => rating.productId === product.id);
+                productRatings.forEach(rating => {
+                    totalRating += rating.stars;
+                    ratingCount++;
+                });
+            });
+
+            const avgRating = ratingCount > 0 ? (totalRating / ratingCount).toFixed(1) : 0;
+
+            const sellerInfo = document.getElementById('sellerInfo');
+            sellerInfo.innerHTML = `
+                <div class="seller-avatar" id="sellerAvatar">
+                    <i class="fas fa-store" id="sellerIcon"></i>
+                    <img id="sellerImage" src="" alt="Seller Profile">
+                </div>
+                <div class="seller-name">${currentSeller}</div>
+                <div class="seller-store">${seller?.storeName || 'Toko ' + currentSeller}</div>
+                <div class="seller-bio">${seller?.bio || 'Penjual terpercaya di Sky Island'}</div>
+                
+                <div class="social-media">
+                    ${seller?.instagram ? `<a href="${seller.instagram}" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>` : ''}
+                    ${seller?.whatsapp ? `<a href="https://wa.me/${seller.whatsapp}" class="social-icon" target="_blank"><i class="fab fa-whatsapp"></i></a>` : ''}
+                    ${seller?.facebook ? `<a href="${seller.facebook}" class="social-icon" target="_blank"><i class="fab fa-facebook"></i></a>` : ''}
+                    ${seller?.tiktok ? `<a href="${seller.tiktok}" class="social-icon" target="_blank"><i class="fab fa-tiktok"></i></a>` : ''}
+                </div>
+
+                <div class="seller-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">${sellerProducts.length}</div>
+                        <div class="stat-label">Produk</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">${sellerPosts.length}</div>
+                        <div class="stat-label">Postingan</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">${avgRating}</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                </div>
+            `;
+
+            // Load seller profile image if exists
+            if (seller && seller.profileImage) {
+                document.getElementById('sellerImage').src = seller.profileImage;
+                document.getElementById('sellerImage').style.display = 'block';
+                document.getElementById('sellerIcon').style.display = 'none';
+            }
+        }
+
+        function loadSellerPosts() {
+            const allPosts = JSON.parse(localStorage.getItem('skyIslandPosts') || '[]');
+            const sellerPosts = allPosts.filter(post => post.username === currentSeller);
+
+            const container = document.getElementById('sellerPosts');
+            container.innerHTML = '';
+
+            if (sellerPosts.length === 0) {
+                container.innerHTML = '<div class="no-content">Belum ada postingan</div>';
+                return;
+            }
+
+            sellerPosts.slice(0, 6).forEach(post => { // Limit to 6 posts
+                const postElement = document.createElement('div');
+                postElement.className = 'post-item';
+                postElement.onclick = () => viewPostDetail(post.id);
+                
+                postElement.innerHTML = `
+                    ${post.mediaType === 'image' ? 
+                        `<img src="${post.media}" alt="Post" class="post-media">` :
+                        `<video src="${post.media}" class="post-media" style="object-fit: cover;"></video>`
+                    }
+                `;
+                container.appendChild(postElement);
+            });
+        }
+
+        function loadSellerProducts() {
+            const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            const sellerProducts = allProducts.filter(product => product.seller === currentSeller);
+
+            const container = document.getElementById('sellerProducts');
+            container.innerHTML = '';
+
+            if (sellerProducts.length === 0) {
+                container.innerHTML = '<div class="no-content">Belum ada produk</div>';
+                return;
+            }
+
+            sellerProducts.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.className = 'product-card';
+                productElement.onclick = () => viewProductDetail(product.id);
+                
+                productElement.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">Rp ${product.price.toLocaleString()}</div>
+                    </div>
+                `;
+                container.appendChild(productElement);
+            });
+        }
+
+        function viewPostDetail(postId) {
+            // Implement view post detail
+            alert('Fitur melihat detail postingan akan segera tersedia');
+        }
+
+        function viewProductDetail(productId) {
+            window.location.href = `product-show.html?id=${productId}`;
+        }
+
+        // Bottom navigation active state
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

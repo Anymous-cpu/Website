@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login/Register - Sky Island</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo h1 {
+            color: #1a2980;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .admin-access {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .admin-access a {
+            color: #1a2980;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #1a2980;
+            outline: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-top: 8px;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .switch-form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .switch-form a {
+            color: #1a2980;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 90;
+            max-width: 95%;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0 4px;
+            position: relative;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item span {
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(26, 41, 128, 0.4);
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .container {
+                padding: 20px;
+                border-radius: 16px;
+            }
+            
+            .logo h1 {
+                font-size: 22px;
+            }
+            
+            .nav-item {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .nav-item i {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>Sky Island</h1>
+            <p>Buat akun atau masuk</p>
+        </div>
+
+        <!-- Admin Access (Hanya link, tidak ada credential) -->
+        <div class="admin-access">
+            <a href="admin-login.html">
+                <i class="fas fa-shield-alt"></i> Akses Admin/Developer
+            </a>
+        </div>
+
+        <!-- Form Daftar -->
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="regUsername">Nama Pengguna</label>
+                <input type="text" id="regUsername" required maxlength="20">
+                <div class="error" id="regUsernameError">Nama pengguna sudah digunakan</div>
+            </div>
+            <div class="form-group">
+                <label for="regPassword">Password</label>
+                <input type="password" id="regPassword" required minlength="6">
+            </div>
+            <div class="form-group">
+                <label for="regReferral">Kode Referral</label>
+                <input type="text" id="regReferral" required placeholder="Masukkan kode referral" maxlength="10">
+                <div class="error" id="regReferralError">Kode referral tidak valid</div>
+            </div>
+            <button type="submit" class="btn">Daftar</button>
+        </form>
+
+        <!-- Form Login -->
+        <form id="loginForm" style="display: none;">
+            <div class="form-group">
+                <label for="loginUsername">Nama Pengguna</label>
+                <input type="text" id="loginUsername" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" required>
+            </div>
+            <button type="submit" class="btn">Masuk</button>
+        </form>
+
+        <div class="switch-form">
+            <a href="#" id="switchLink">Sudah punya akun? Masuk</a>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="credit.html" class="nav-item">
+            <i class="fas fa-coins"></i>
+            <span>Credit</span>
+        </a>
+        <a href="pencarian.html" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Pencarian</span>
+        </a>
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="store.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Store</span>
+        </a>
+        <a href="akun.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Akun</span>
+        </a>
+    </div>
+
+    <script>
+        const registerForm = document.getElementById('registerForm');
+        const loginForm = document.getElementById('loginForm');
+        const switchLink = document.getElementById('switchLink');
+
+        let isLogin = false;
+
+        // Cek jika sudah login
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('skyIslandCurrentUser');
+            if (currentUser) {
+                window.location.href = 'akun.html';
+                return;
+            }
+
+            // Inisialisasi referral codes jika belum ada
+            initializeReferralCodes();
+
+            // Reset error messages
+            document.getElementById('regUsername').addEventListener('input', function() {
+                document.getElementById('regUsernameError').style.display = 'none';
+            });
+
+            document.getElementById('regReferral').addEventListener('input', function() {
+                document.getElementById('regReferralError').style.display = 'none';
+            });
+        });
+
+        // Switch antara form daftar dan login
+        switchLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            isLogin = !isLogin;
+            
+            if (isLogin) {
+                registerForm.style.display = 'none';
+                loginForm.style.display = 'block';
+                switchLink.textContent = 'Belum punya akun? Daftar';
+            } else {
+                registerForm.style.display = 'block';
+                loginForm.style.display = 'none';
+                switchLink.textContent = 'Sudah punya akun? Masuk';
+            }
+        });
+
+        // Handle pendaftaran
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('regUsername').value;
+            const password = document.getElementById('regPassword').value;
+            const referralCode = document.getElementById('regReferral').value.toUpperCase();
+
+            // Validasi kode referral
+            const referrals = JSON.parse(localStorage.getItem('skyIslandReferrals') || '[]');
+            const validReferral = referrals.find(ref => ref.code === referralCode && !ref.used);
+
+            if (!validReferral) {
+                document.getElementById('regReferralError').style.display = 'block';
+                return;
+            }
+
+            // Cek apakah username sudah ada
+            const existingUsers = JSON.parse(localStorage.getItem('skyIslandUsers') || '[]');
+            const userExists = existingUsers.find(user => user.username === username);
+
+            if (userExists) {
+                document.getElementById('regUsernameError').style.display = 'block';
+                return;
+            }
+
+            // Tandai referral code sebagai digunakan
+            validReferral.used = true;
+            validReferral.usedBy = username;
+            validReferral.usedAt = new Date().toISOString();
+            localStorage.setItem('skyIslandReferrals', JSON.stringify(referrals));
+
+            // Simpan user baru (TIDAK BISA JADI DEVELOPER DARI SINI)
+            const newUser = {
+                username: username,
+                password: password,
+                referralCode: referralCode,
+                joinedDate: new Date().toISOString(),
+                isActive: true,
+                isDeveloper: false, // SELALU false untuk pendaftaran biasa
+                profileImage: '',
+                storeName: 'Toko ' + username
+            };
+            
+            existingUsers.push(newUser);
+            localStorage.setItem('skyIslandUsers', JSON.stringify(existingUsers));
+            localStorage.setItem('skyIslandCurrentUser', username);
+            
+            alert('Pendaftaran berhasil!');
+            window.location.href = 'akun.html';
+        });
+
+        // Handle login (TIDAK BISA LOGIN DEVELOPER DARI SINI)
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const existingUsers = JSON.parse(localStorage.getItem('skyIslandUsers') || '[]');
+            const user = existingUsers.find(user => user.username === username && user.password === password);
+
+            if (user) {
+                // Pastikan user bukan developer (kecuali melalui admin-login)
+                if (user.isDeveloper) {
+                    alert('Akun developer harus login melalui halaman admin!');
+                    return;
+                }
+                
+                localStorage.setItem('skyIslandCurrentUser', username);
+                window.location.href = 'akun.html';
+            } else {
+                alert('Username atau password salah!');
+            }
+        });
+
+        function initializeReferralCodes() {
+            const referrals = JSON.parse(localStorage.getItem('skyIslandReferrals') || '[]');
+            if (referrals.length === 0) {
+                const defaultReferrals = [
+                    { code: 'WELCOME123', createdAt: new Date().toISOString(), used: false },
+                    { code: 'SKYISLAND', createdAt: new Date().toISOString(), used: false },
+                    { code: 'NEWUSER99', createdAt: new Date().toISOString(), used: false }
+                ];
+                localStorage.setItem('skyIslandReferrals', JSON.stringify(defaultReferrals));
+            }
+        }
+
+        // Bottom navigation active state
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

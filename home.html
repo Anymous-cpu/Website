@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Home - Sky Island</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            min-height: 100vh;
+            padding: 16px;
+            padding-bottom: 100px;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        .page-container {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo h1 {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .slideshow-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .slideshow {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 15px;
+            text-align: center;
+            color: white;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            text-align: center;
+        }
+
+        .slide-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .slide-desc {
+            font-size: 12px;
+        }
+
+        .slide-nav {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 10;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalFade 0.3s ease;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalFade {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a2980;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #1a2980;
+        }
+
+        .modal-body {
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .back-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(26, 41, 128, 0.3);
+        }
+
+        .back-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 6px rgba(26, 41, 128, 0.3);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 90;
+            max-width: 95%;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0 4px;
+            position: relative;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item span {
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(26, 41, 128, 0.4);
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        .cloud {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            opacity: 0.7;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .cloud-1 {
+            width: 100px;
+            height: 35px;
+            top: 10%;
+            left: -40px;
+            animation: float 25s infinite linear;
+        }
+
+        .cloud-2 {
+            width: 120px;
+            height: 40px;
+            top: 25%;
+            right: -50px;
+            animation: float 30s infinite linear reverse;
+        }
+
+        .cloud-3 {
+            width: 80px;
+            height: 30px;
+            bottom: 20%;
+            left: -30px;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateX(-100px);
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px));
+            }
+        }
+
+        .audio-player {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            margin-top: 15px;
+        }
+
+        .audio-title {
+            color: #1a2980;
+            margin-bottom: 12px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .audio-btn {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(26, 41, 128, 0.3);
+        }
+
+        .audio-btn:active {
+            transform: scale(0.95);
+        }
+
+        .progress-container {
+            flex: 1;
+            height: 6px;
+            background: #e8e8e8;
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .time {
+            color: #1a2980;
+            font-size: 12px;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* Mobile-specific optimizations */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+                padding-bottom: 90px;
+            }
+            
+            .header {
+                padding: 12px;
+                border-radius: 16px;
+            }
+            
+            .logo img {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .logo h1 {
+                font-size: 18px;
+            }
+            
+            .slideshow-container {
+                border-radius: 16px;
+            }
+            
+            .slideshow {
+                height: 180px;
+            }
+            
+            .nav-item {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .nav-item i {
+                font-size: 16px;
+            }
+            
+            .nav-item span {
+                font-size: 8px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header {
+                padding: 10px;
+            }
+            
+            .logo img {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .logo h1 {
+                font-size: 16px;
+            }
+            
+            .slideshow {
+                height: 160px;
+            }
+            
+            .nav-item {
+                width: 45px;
+                height: 45px;
+                margin: 0 3px;
+            }
+            
+            .nav-item i {
+                font-size: 14px;
+            }
+        }
+
+        /* Landscape mode */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                padding: 8px;
+                padding-bottom: 70px;
+            }
+            
+            .slideshow {
+                height: 150px;
+            }
+            
+            .bottom-nav {
+                bottom: 8px;
+            }
+        }
+
+        /* Prevent zoom on iOS */
+        input, select, textarea {
+            font-size: 16px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+    
+    <div class="page-container">
+        <!-- Header dengan logo dan info pengguna -->
+        <div class="header">
+            <div class="logo">
+                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Logo Sky Island">
+                <h1>Sky Island</h1>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span id="usernameDisplay">Admin</span>
+            </div>
+        </div>
+        
+        <!-- Slideshow untuk iklan/informasi -->
+        <div class="slideshow-container">
+            <div class="slideshow">
+                <!-- Slides akan dimuat dari localStorage -->
+            </div>
+            
+            <div class="slide-nav">
+                <!-- Navigasi dots akan dibuat secara dinamis -->
+            </div>
+        </div>
+        
+        <!-- Modal untuk menampilkan detail informasi -->
+        <div class="modal" id="infoModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="modalTitle">Sky Island Premium</h2>
+                    <button class="close-btn" id="closeModal">&times;</button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <p>Dapatkan akses premium ke semua fitur Sky Island dengan berlangganan sekarang!</p>
+                    <p>Fitur premium termasuk:</p>
+                    <ul>
+                        <li>Akses ke semua tools eksklusif</li>
+                        <li>Dukungan prioritas dari tim developer</li>
+                        <li>Update fitur lebih cepat</li>
+                        <li>Tanpa iklan</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="back-btn" id="modalBackBtn">Kembali</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Audio Player -->
+        <div class="audio-player">
+            <div class="audio-title">Sky Island Theme</div>
+            <div class="audio-controls">
+                <button class="audio-btn" id="playBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="time" id="currentTime">0:00</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="credit.html" class="nav-item">
+            <i class="fas fa-coins"></i>
+            <span>Credit</span>
+        </a>
+        <a href="pencarian.html" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Pencarian</span>
+        </a>
+        <a href="home.html" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="store.html" class="nav-item">
+            <i class="fas fa-store"></i>
+            <span>Store</span>
+        </a>
+        <a href="akun.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Akun</span>
+        </a>
+    </div>
+
+    <script>
+        // Audio player functionality
+        const audio = new Audio("https://files.catbox.moe/k8wlq6.mp3");
+        const playBtn = document.getElementById('playBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const currentTime = document.getElementById('currentTime');
+        
+        let isPlaying = false;
+        
+        function togglePlay() {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                audio.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            isPlaying = !isPlaying;
+        }
+        
+        function updateProgress(e) {
+            const { duration, currentTime: time } = e.srcElement;
+            const progressPercent = (time / duration) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+            
+            // Format waktu
+            const minutes = Math.floor(time / 60);
+            const seconds = Math.floor(time % 60);
+            currentTime.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+        
+        function setProgress(e) {
+            const width = this.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+            
+            audio.currentTime = (clickX / width) * duration;
+        }
+        
+        playBtn.addEventListener('click', togglePlay);
+        audio.addEventListener('timeupdate', updateProgress);
+        progressContainer.addEventListener('click', setProgress);
+        
+        // Slideshow functionality
+        const slideshow = document.querySelector('.slideshow');
+        const slideNav = document.querySelector('.slide-nav');
+        let currentSlide = 0;
+        let slideInterval;
+        let slidesData = [];
+        
+        // Load slides data from localStorage
+        function loadSlidesData() {
+            const savedSlides = localStorage.getItem('skyIslandSlides');
+            if (savedSlides) {
+                slidesData = JSON.parse(savedSlides);
+            } else {
+                // Default slides jika tidak ada data
+                slidesData = [
+                    {
+                        id: 1,
+                        title: "Sky Island Premium",
+                        description: "Dapatkan akses premium sekarang!",
+                        imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                        content: `
+                            <p>Dapatkan akses premium ke semua fitur Sky Island dengan berlangganan sekarang!</p>
+                            <p>Fitur premium termasuk:</p>
+                            <ul>
+                                <li>Akses ke semua tools eksklusif</li>
+                                <li>Dukungan prioritas dari tim developer</li>
+                                <li>Update fitur lebih cepat</li>
+                                <li>Tanpa iklan</li>
+                            </ul>
+                            <p><strong>Hanya Rp 49.999/bulan</strong></p>
+                        `
+                    },
+                    {
+                        id: 2,
+                        title: "Update Terbaru",
+                        description: "Fitur baru telah tersedia!",
+                        imageUrl: "https://images.unsplash.com/photo-1464822759844-d150405c4ec9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                        content: `
+                            <p>Kami dengan bangga mempersembahkan update terbaru Sky Island versi 2.1!</p>
+                            <p>Fitur baru yang telah ditambahkan:</p>
+                            <ul>
+                                <li>Tools analisis data yang lebih canggih</li>
+                                <li>Antarmuka yang lebih responsif</li>
+                                <li>Peningkatan keamanan sistem</li>
+                                <li>Integrasi dengan platform pihak ketiga</li>
+                            </ul>
+                            <p>Update ini tersedia untuk semua pengguna secara gratis!</p>
+                        `
+                    },
+                    {
+                        id: 3,
+                        title: "Event Spesial",
+                        description: "Ikuti event kami bulan ini!",
+                        imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                        content: `
+                            <p>Ikuti event spesial Sky Island bulan ini dan menangkan hadiah menarik!</p>
+                            <p>Event yang sedang berlangsung:</p>
+                            <ul>
+                                <li><strong>Referral Program:</strong> Dapatkan bonus untuk setiap teman yang bergabung</li>
+                                <li><strong>Challenge Mingguan:</strong> Selesaikan tantangan dan dapatkan poin</li>
+                                <li><strong>Giveaway Akhir Bulan:</strong> Kesempatan memenangkan hadiah eksklusif</li>
+                            </ul>
+                            <p>Jangan lewatkan kesempatan ini!</p>
+                        `
+                    }
+                ];
+                saveSlidesData();
+            }
+        }
+        
+        // Save slides data to localStorage
+        function saveSlidesData() {
+            localStorage.setItem('skyIslandSlides', JSON.stringify(slidesData));
+        }
+        
+        // Render slides based on data
+        function renderSlides() {
+            slideshow.innerHTML = '';
+            slideNav.innerHTML = '';
+            
+            slidesData.forEach((slide, index) => {
+                // Create slide element
+                const slideElement = document.createElement('div');
+                slideElement.className = `slide ${index === 0 ? 'active' : ''}`;
+                slideElement.setAttribute('data-id', slide.id);
+                
+                slideElement.innerHTML = `
+                    <img src="${slide.imageUrl}" alt="${slide.title}">
+                    <div class="slide-content">
+                        <div class="slide-title">${slide.title}</div>
+                        <div class="slide-desc">${slide.description}</div>
+                    </div>
+                `;
+                
+                slideshow.appendChild(slideElement);
+                
+                // Create navigation dot
+                const dotElement = document.createElement('div');
+                dotElement.className = `nav-dot ${index === 0 ? 'active' : ''}`;
+                dotElement.setAttribute('data-slide', index);
+                slideNav.appendChild(dotElement);
+            });
+            
+            // Add event listeners to new slides and dots
+            setupSlideEvents();
+        }
+        
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.nav-dot');
+            
+            // Reset semua slide
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            
+            // Tampilkan slide yang dipilih
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        // Setup event listeners for slides and dots
+        function setupSlideEvents() {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.nav-dot');
+            
+            // Setup dots navigation
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    clearInterval(slideInterval);
+                    showSlide(index);
+                    startSlideShow();
+                });
+            });
+            
+            // Event listener untuk membuka modal ketika slide diklik
+            slides.forEach(slide => {
+                slide.addEventListener('click', () => {
+                    const slideId = parseInt(slide.getAttribute('data-id'));
+                    const data = slidesData.find(s => s.id === slideId);
+                    
+                    if (data) {
+                        modalTitle.textContent = data.title;
+                        modalBody.innerHTML = data.content;
+                        modal.style.display = 'flex';
+                    }
+                });
+            });
+        }
+        
+        // Start slideshow
+        function startSlideShow() {
+            if (slidesData.length > 1) {
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+        }
+        
+        // Modal functionality
+        const modal = document.getElementById('infoModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const closeModal = document.getElementById('closeModal');
+        const modalBackBtn = document.getElementById('modalBackBtn');
+        
+        // Event listener untuk menutup modal
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        modalBackBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        // Tutup modal jika mengklik di luar konten modal
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Bottom navigation active state
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Hapus kelas active dari semua item
+                navItems.forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                
+                // Tambahkan kelas active ke item yang diklik
+                this.classList.add('active');
+            });
+        });
+        
+        // Tampilkan username dari localStorage jika ada
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedUsername = localStorage.getItem('skyIslandUsername');
+            if (savedUsername) {
+                document.getElementById('usernameDisplay').textContent = savedUsername;
+            }
+            
+            // Load and render slides
+            loadSlidesData();
+            renderSlides();
+            
+            // Mulai slideshow
+            startSlideShow();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Postingan - Sky Island</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            min-height: 100vh;
+            padding: 16px;
+            padding-bottom: 100px;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .header h1 {
+            color: #1a2980;
+            font-size: 22px;
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: transform 0.3s;
+        }
+
+        .back-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Upload Post Section */
+        .upload-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .upload-area:hover {
+            border-color: #1a2980;
+            background: #f0f8ff;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: #1a2980;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .preview-container {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .preview-image, .preview-video {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .caption-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            width: 100%;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Posts Grid */
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .post-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .post-item:active {
+            transform: scale(0.95);
+        }
+
+        .post-media {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .post-info {
+            padding: 10px;
+        }
+
+        .post-caption {
+            font-size: 12px;
+            color: #333;
+            margin-bottom: 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .post-date {
+            font-size: 10px;
+            color: #666;
+        }
+
+        /* Modal View Post */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-media {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .modal-info {
+            padding: 15px;
+        }
+
+        .modal-caption {
+            color: #333;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .modal-date {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 90;
+            max-width: 95%;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0 4px;
+            position: relative;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item span {
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(26, 41, 128, 0.4);
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+                padding-bottom: 90px;
+            }
+            
+            .container {
+                padding: 15px;
+                border-radius: 16px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .upload-section {
+                padding: 15px;
+            }
+            
+            .upload-area {
+                padding: 20px;
+            }
+            
+            .posts-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 10px;
+            }
+            
+            .post-media {
+                height: 120px;
+            }
+            
+            .nav-item {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .nav-item i {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .nav-item {
+                width: 45px;
+                height: 45px;
+                margin: 0 3px;
+            }
+            
+            .nav-item i {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Postingan Saya</h1>
+            <a href="your-store.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <h3 style="margin-bottom: 15px; color: #1a2980; text-align: center;">Upload Postingan Baru</h3>
+            
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <div class="upload-text">
+                    Klik untuk upload foto atau video
+                </div>
+                <div style="font-size: 12px; color: #999;">
+                    Support: JPG, PNG, MP4, MOV
+                </div>
+                <input type="file" id="fileInput" class="file-input" accept="image/*,video/*">
+            </div>
+
+            <div class="preview-container" id="previewContainer">
+                <img id="imagePreview" class="preview-image" style="display: none;">
+                <video id="videoPreview" class="preview-video" controls style="display: none;"></video>
+                <textarea class="caption-input" id="postCaption" placeholder="Tambahkan caption..."></textarea>
+                <button class="btn" onclick="uploadPost()">Posting</button>
+            </div>
+        </div>
+
+        <!-- Posts Grid -->
+        <div class="posts-section">
+            <h3 style="margin-bottom: 15px; color: #1a2980; text-align: center;">Postingan Anda</h3>
+            <div class="posts-grid" id="postsContainer">
+                <!-- Postingan akan ditampilkan di sini -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal View Post -->
+    <div class="modal" id="postModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <img id="modalImage" class="modal-media" style="display: none;">
+            <video id="modalVideo" class="modal-media" controls style="display: none;"></video>
+            <div class="modal-info">
+                <div class="modal-caption" id="modalCaption"></div>
+                <div class="modal-date" id="modalDate"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="credit.html" class="nav-item">
+            <i class="fas fa-coins"></i>
+            <span>Credit</span>
+        </a>
+        <a href="pencarian.html" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Pencarian</span>
+        </a>
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="store.html" class="nav-item active">
+            <i class="fas fa-store"></i>
+            <span>Store</span>
+        </a>
+        <a href="akun.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Akun</span>
+        </a>
+    </div>
+
+    <script>
+        let currentMediaBase64 = '';
+        let mediaType = ''; // 'image' or 'video'
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('skyIslandCurrentUser');
+            if (!currentUser) {
+                window.location.href = 'store.html';
+                return;
+            }
+
+            loadUserPosts();
+        });
+
+        document.getElementById('uploadArea').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentMediaBase64 = e.target.result;
+                    mediaType = file.type.startsWith('image') ? 'image' : 'video';
+                    
+                    // Show preview
+                    document.getElementById('previewContainer').style.display = 'block';
+                    
+                    if (mediaType === 'image') {
+                        document.getElementById('imagePreview').src = currentMediaBase64;
+                        document.getElementById('imagePreview').style.display = 'block';
+                        document.getElementById('videoPreview').style.display = 'none';
+                    } else {
+                        document.getElementById('videoPreview').src = currentMediaBase64;
+                        document.getElementById('videoPreview').style.display = 'block';
+                        document.getElementById('imagePreview').style.display = 'none';
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function uploadPost() {
+            const caption = document.getElementById('postCaption').value.trim();
+            const currentUser = localStorage.getItem('skyIslandCurrentUser');
+
+            if (!currentMediaBase64) {
+                alert('Pilih media terlebih dahulu!');
+                return;
+            }
+
+            const post = {
+                id: Date.now(),
+                username: currentUser,
+                media: currentMediaBase64,
+                mediaType: mediaType,
+                caption: caption,
+                timestamp: new Date().toISOString(),
+                likes: 0,
+                comments: []
+            };
+
+            // Save to localStorage
+            const existingPosts = JSON.parse(localStorage.getItem('skyIslandPosts') || '[]');
+            existingPosts.unshift(post); // Add to beginning for newest first
+            localStorage.setItem('skyIslandPosts', JSON.stringify(existingPosts));
+
+            // Reset form
+            document.getElementById('postCaption').value = '';
+            document.getElementById('previewContainer').style.display = 'none';
+            document.getElementById('fileInput').value = '';
+            currentMediaBase64 = '';
+            mediaType = '';
+
+            alert('Postingan berhasil diupload!');
+            loadUserPosts();
+        }
+
+        function loadUserPosts() {
+            const currentUser = localStorage.getItem('skyIslandCurrentUser');
+            const allPosts = JSON.parse(localStorage.getItem('skyIslandPosts') || '[]');
+            const userPosts = allPosts.filter(post => post.username === currentUser);
+
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = '';
+
+            if (userPosts.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 20px; grid-column: 1 / -1;">Belum ada postingan</p>';
+                return;
+            }
+
+            userPosts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post-item';
+                postElement.onclick = () => viewPost(post.id);
+                
+                postElement.innerHTML = `
+                    ${post.mediaType === 'image' ? 
+                        `<img src="${post.media}" alt="Post" class="post-media">` :
+                        `<video src="${post.media}" class="post-media" style="object-fit: cover;"></video>`
+                    }
+                    <div class="post-info">
+                        <div class="post-caption">${post.caption || 'Tidak ada caption'}</div>
+                        <div class="post-date">${formatDate(post.timestamp)}</div>
+                    </div>
+                `;
+                container.appendChild(postElement);
+            });
+        }
+
+        function viewPost(postId) {
+            const allPosts = JSON.parse(localStorage.getItem('skyIslandPosts') || '[]');
+            const post = allPosts.find(p => p.id === postId);
+            
+            if (!post) return;
+
+            if (post.mediaType === 'image') {
+                document.getElementById('modalImage').src = post.media;
+                document.getElementById('modalImage').style.display = 'block';
+                document.getElementById('modalVideo').style.display = 'none';
+            } else {
+                document.getElementById('modalVideo').src = post.media;
+                document.getElementById('modalVideo').style.display = 'block';
+                document.getElementById('modalImage').style.display = 'none';
+            }
+
+            document.getElementById('modalCaption').textContent = post.caption || 'Tidak ada caption';
+            document.getElementById('modalDate').textContent = formatDate(post.timestamp);
+            document.getElementById('postModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('postModal').style.display = 'none';
+            document.getElementById('modalVideo').pause();
+        }
+
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+
+        // Bottom navigation active state
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

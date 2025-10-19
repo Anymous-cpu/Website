@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Your Store - Sky Island</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            min-height: 100vh;
+            padding: 16px;
+            padding-bottom: 100px;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .header h1 {
+            color: #1a2980;
+            font-size: 22px;
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: transform 0.3s;
+        }
+
+        .back-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Store Profile Section */
+        .store-profile {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .profile-header {
+            margin-bottom: 20px;
+        }
+
+        .store-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 40px;
+            color: white;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .store-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            display: none;
+        }
+
+        .store-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a2980;
+            margin-bottom: 5px;
+        }
+
+        .store-bio {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .social-link:active {
+            transform: scale(0.95);
+        }
+
+        .edit-profile-btn {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .edit-profile-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Store Stats */
+        .store-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a2980;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Menu Navigation */
+        .store-menu {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .menu-item {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .menu-item:active {
+            transform: scale(0.95);
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .menu-text {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .product-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 150px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            display: none;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            width: 100%;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+        }
+
+        .products-list {
+            margin-top: 20px;
+        }
+
+        .product-item {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 12px;
+            border: 1px solid #eee;
+        }
+
+        .product-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #1a2980;
+            margin-bottom: 4px;
+            font-size: 16px;
+        }
+
+        .product-price {
+            color: #e74c3c;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .product-stock {
+            color: #27ae60;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 8px;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 1px;
+        }
+
+        .rating-star {
+            color: #FFD700;
+            font-size: 10px;
+        }
+
+        .rating-text {
+            color: #666;
+            font-size: 11px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            flex: 1;
+        }
+
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+
+        .vip-badge {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        /* Modal Edit Produk */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalFade 0.3s ease;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalFade {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a2980;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .modal-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+        }
+
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+        }
+
+        /* Modal Edit Profile */
+        .profile-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .profile-modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalFade 0.3s ease;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .social-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .social-input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 90;
+            max-width: 95%;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0 4px;
+            position: relative;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item span {
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(26, 41, 128, 0.4);
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+                padding-bottom: 90px;
+            }
+            
+            .container {
+                padding: 15px;
+                border-radius: 16px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .store-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 30px;
+            }
+            
+            .store-name {
+                font-size: 20px;
+            }
+            
+            .product-form {
+                padding: 15px;
+            }
+            
+            .product-item {
+                padding: 12px;
+            }
+            
+            .product-image {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .nav-item {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .nav-item i {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .nav-item {
+                width: 45px;
+                height: 45px;
+                margin: 0 3px;
+            }
+            
+            .nav-item i {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Your Store</h1>
+            <a href="store.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
+        </div>
+
+        <!-- Store Profile Section -->
+        <div class="store-profile">
+            <div class="profile-header">
+                <div class="store-avatar" id="storeAvatar" onclick="document.getElementById('storeImageInput').click()">
+                    <i class="fas fa-store" id="storeIcon"></i>
+                    <img id="storeImage" src="" alt="Store Profile">
+                </div>
+                <input type="file" id="storeImageInput" class="file-input" accept="image/*">
+                
+                <div class="store-name" id="storeName">Loading...</div>
+                <div class="store-bio" id="storeBio">Loading...</div>
+                
+                <div class="social-links" id="socialLinks">
+                    <!-- Social media links will be populated by JavaScript -->
+                </div>
+                
+                <button class="edit-profile-btn" onclick="showEditProfileModal()">
+                    <i class="fas fa-edit"></i> Edit Profil Toko
+                </button>
+            </div>
+
+            <div class="store-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="productsCount">0</div>
+                    <div class="stat-label">Produk</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="postsCount">0</div>
+                    <div class="stat-label">Postingan</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="ratingAvg">0</div>
+                    <div class="stat-label">Rating</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Store Menu Navigation -->
+        <div class="store-menu">
+            <a href="#products" class="menu-item" onclick="showSection('products')">
+                <div class="menu-icon">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div class="menu-text">Your Store</div>
+            </a>
+            <a href="chat-list.html" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="menu-text">Chat</div>
+            </a>
+            <a href="postingan.html" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-images"></i>
+                </div>
+                <div class="menu-text">Postingan</div>
+            </a>
+            <a href="ulasan.html" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="menu-text">Ulasan</div>
+            </a>
+        </div>
+
+        <!-- Products Section -->
+        <div id="productsSection">
+            <div class="product-form">
+                <h3 style="margin-bottom: 15px; color: #1a2980; text-align: center;">Tambah Produk Baru</h3>
+                <div class="form-group">
+                    <label for="productName">Nama Produk</label>
+                    <input type="text" id="productName" required maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label for="productPrice">Harga (Rp)</label>
+                    <input type="number" id="productPrice" required min="0">
+                </div>
+                <div class="form-group">
+                    <label for="productStock">Stok</label>
+                    <input type="number" id="productStock" required min="1">
+                </div>
+                <div class="form-group">
+                    <label for="productDescription">Deskripsi</label>
+                    <textarea id="productDescription" required maxlength="200"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="productImage">Gambar Produk</label>
+                    <input type="file" id="productImage" accept="image/*" required>
+                    <div class="image-preview">
+                        <img id="imagePreview" src="" alt="Preview">
+                        <span id="previewText">Preview Gambar</span>
+                    </div>
+                </div>
+                <button class="btn" onclick="addProduct()">Tambah Produk</button>
+            </div>
+
+            <div class="products-list">
+                <h3 style="margin-bottom: 15px; color: #1a2980; text-align: center;">Produk Anda</h3>
+                <div id="productsContainer">
+                    <!-- Produk akan ditampilkan di sini -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Produk -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Produk</h2>
+                <button class="close-btn" onclick="hideEditModal()">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="editProductName">Nama Produk</label>
+                <input type="text" id="editProductName" required maxlength="50">
+            </div>
+            <div class="form-group">
+                <label for="editProductPrice">Harga (Rp)</label>
+                <input type="number" id="editProductPrice" required min="0">
+            </div>
+            <div class="form-group">
+                <label for="editProductStock">Stok</label>
+                <input type="number" id="editProductStock" required min="1">
+            </div>
+            <div class="form-group">
+                <label for="editProductDescription">Deskripsi</label>
+                <textarea id="editProductDescription" required maxlength="200"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="editProductImage">Gambar Produk</label>
+                <input type="file" id="editProductImage" accept="image/*">
+                <div class="image-preview">
+                    <img id="editImagePreview" src="" alt="Preview">
+                    <span id="editPreviewText">Preview Gambar</span>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn-save" onclick="saveProduct()">Simpan Perubahan</button>
+                <button class="btn btn-cancel" onclick="hideEditModal()">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Profile -->
+    <div class="profile-modal" id="editProfileModal">
+        <div class="profile-modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Profil Toko</h2>
+                <button class="close-btn" onclick="hideEditProfileModal()">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="editStoreName">Nama Toko</label>
+                <input type="text" id="editStoreName" placeholder="Masukkan nama toko">
+            </div>
+            <div class="form-group">
+                <label for="editStoreBio">Bio Toko</label>
+                <textarea id="editStoreBio" placeholder="Deskripsikan toko Anda..." maxlength="200"></textarea>
+            </div>
+            
+            <h4 style="margin-bottom: 15px; color: #1a2980;">Media Sosial</h4>
+            <div class="social-input-group">
+                <div class="social-icon">
+                    <i class="fab fa-instagram"></i>
+                </div>
+                <input type="text" id="editInstagram" class="social-input" placeholder="Username Instagram">
+            </div>
+            <div class="social-input-group">
+                <div class="social-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <input type="text" id="editWhatsapp" class="social-input" placeholder="Nomor WhatsApp">
+            </div>
+            <div class="social-input-group">
+                <div class="social-icon">
+                    <i class="fab fa-facebook"></i>
+                </div>
+                <input type="text" id="editFacebook" class="social-input" placeholder="Link Facebook">
+            </div>
+            <div class="social-input-group">
+                <div class="social-icon">
+                    <i class="fab fa-tiktok"></i>
+                </div>
+                <input type="text" id="editTiktok" class="social-input" placeholder="Username TikTok">
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="btn btn-save" onclick="saveStoreProfile()">Simpan Perubahan</button>
+                <button class="btn btn-cancel" onclick="hideEditProfileModal()">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="credit.html" class="nav-item">
+            <i class="fas fa-coins"></i>
+            <span>Credit</span>
+        </a>
+        <a href="pencarian.html" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Pencarian</span>
+        </a>
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="store.html" class="nav-item active">
+            <i class="fas fa-store"></i>
+            <span>Store</span>
+        </a>
+        <a href="akun.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Akun</span>
+        </a>
+    </div>
+
+    <script>
+        let productImageBase64 = '';
+        let editProductImageBase64 = '';
+        let currentEditingProductId = null;
+        let currentUser = null;
+        let userData = null;
+
+        // Preview gambar untuk tambah produk
+        document.getElementById('productImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    productImageBase64 = e.target.result;
+                    document.getElementById('imagePreview').src = productImageBase64;
+                    document.getElementById('imagePreview').style.display = 'block';
+                    document.getElementById('previewText').style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Preview gambar untuk edit produk
+        document.getElementById('editProductImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    editProductImageBase64 = e.target.result;
+                    document.getElementById('editImagePreview').src = editProductImageBase64;
+                    document.getElementById('editImagePreview').style.display = 'block';
+                    document.getElementById('editPreviewText').style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Store profile image upload
+        document.getElementById('storeImageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+                    
+                    // Update user data
+                    const users = JSON.parse(localStorage.getItem('skyIslandUsers') || '[]');
+                    const userIndex = users.findIndex(user => user.username === currentUser);
+                    
+                    if (userIndex !== -1) {
+                        users[userIndex].storeImage = imageData;
+                        localStorage.setItem('skyIslandUsers', JSON.stringify(users));
+                        userData.storeImage = imageData;
+                        
+                        // Update UI
+                        document.getElementById('storeImage').src = imageData;
+                        document.getElementById('storeImage').style.display = 'block';
+                        document.getElementById('storeIcon').style.display = 'none';
+                        
+                        alert('Foto toko berhasil diubah!');
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function showSection(section) {
+            // Untuk now hanya products yang ditampilkan di halaman ini
+            // Postingan dan Ulasan ada di halaman terpisah
+            return false;
+        }
+
+        function loadStoreProfile() {
+            currentUser = localStorage.getItem('skyIslandCurrentUser');
+            const users = JSON.parse(localStorage.getItem('skyIslandUsers') || '[]');
+            userData = users.find(user => user.username === currentUser);
+
+            if (!userData) {
+                window.location.href = 'store.html';
+                return;
+            }
+
+            // Update store profile
+            document.getElementById('storeName').textContent = userData.storeName || 'Toko ' + currentUser;
+            document.getElementById('storeBio').textContent = userData.storeBio || 'Toko terpercaya di Sky Island';
+            
+            // Update store image
+            if (userData.storeImage) {
+                document.getElementById('storeImage').src = userData.storeImage;
+                document.getElementById('storeImage').style.display = 'block';
+                document.getElementById('storeIcon').style.display = 'none';
+            }
+
+            // Update social links
+            updateSocialLinks();
+
+            // Update stats
+            updateStoreStats();
+        }
+
+        function updateSocialLinks() {
+            const socialLinks = document.getElementById('socialLinks');
+            socialLinks.innerHTML = '';
+
+            const socialPlatforms = [
+                { platform: 'instagram', icon: 'fab fa-instagram', baseUrl: 'https://instagram.com/' },
+                { platform: 'whatsapp', icon: 'fab fa-whatsapp', baseUrl: 'https://wa.me/' },
+                { platform: 'facebook', icon: 'fab fa-facebook', baseUrl: '' },
+                { platform: 'tiktok', icon: 'fab fa-tiktok', baseUrl: 'https://tiktok.com/@' }
+            ];
+
+            socialPlatforms.forEach(social => {
+                if (userData[social.platform]) {
+                    let url = social.baseUrl + userData[social.platform];
+                    if (social.platform === 'whatsapp') {
+                        // Remove non-numeric characters for WhatsApp
+                        const phoneNumber = userData[social.platform].replace(/\D/g, '');
+                        url = `https://wa.me/${phoneNumber}`;
+                    } else if (social.platform === 'facebook' && !userData[social.platform].startsWith('http')) {
+                        url = userData[social.platform];
+                    }
+                    
+                    socialLinks.innerHTML += `
+                        <a href="${url}" class="social-link" target="_blank">
+                            <i class="${social.icon}"></i>
+                        </a>
+                    `;
+                }
+            });
+
+            // If no social media, show message
+            if (socialLinks.innerHTML === '') {
+                socialLinks.innerHTML = '<span style="color: #666; font-size: 12px;">Belum ada media sosial</span>';
+            }
+        }
+
+        function updateStoreStats() {
+            const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            const allPosts = JSON.parse(localStorage.getItem('skyIslandPosts') || '[]');
+            const allRatings = JSON.parse(localStorage.getItem('skyIslandRatings') || '[]');
+
+            const userProducts = allProducts.filter(product => product.seller === currentUser);
+            const userPosts = allPosts.filter(post => post.username === currentUser);
+            
+            // Calculate average rating
+            let totalRating = 0;
+            let ratingCount = 0;
+            
+            userProducts.forEach(product => {
+                const productRatings = allRatings.filter(rating => rating.productId === product.id);
+                productRatings.forEach(rating => {
+                    totalRating += rating.stars;
+                    ratingCount++;
+                });
+            });
+
+            const avgRating = ratingCount > 0 ? (totalRating / ratingCount).toFixed(1) : 0;
+
+            document.getElementById('productsCount').textContent = userProducts.length;
+            document.getElementById('postsCount').textContent = userPosts.length;
+            document.getElementById('ratingAvg').textContent = avgRating;
+        }
+
+        function showEditProfileModal() {
+            document.getElementById('editStoreName').value = userData.storeName || 'Toko ' + currentUser;
+            document.getElementById('editStoreBio').value = userData.storeBio || '';
+            document.getElementById('editInstagram').value = userData.instagram || '';
+            document.getElementById('editWhatsapp').value = userData.whatsapp || '';
+            document.getElementById('editFacebook').value = userData.facebook || '';
+            document.getElementById('editTiktok').value = userData.tiktok || '';
+            
+            document.getElementById('editProfileModal').style.display = 'flex';
+        }
+
+        function hideEditProfileModal() {
+            document.getElementById('editProfileModal').style.display = 'none';
+        }
+
+        function saveStoreProfile() {
+            const storeName = document.getElementById('editStoreName').value.trim();
+            const storeBio = document.getElementById('editStoreBio').value.trim();
+            const instagram = document.getElementById('editInstagram').value.trim();
+            const whatsapp = document.getElementById('editWhatsapp').value.trim();
+            const facebook = document.getElementById('editFacebook').value.trim();
+            const tiktok = document.getElementById('editTiktok').value.trim();
+
+            if (!storeName) {
+                alert('Nama toko tidak boleh kosong!');
+                return;
+            }
+
+            // Update user data
+            const users = JSON.parse(localStorage.getItem('skyIslandUsers') || '[]');
+            const userIndex = users.findIndex(user => user.username === currentUser);
+            
+            if (userIndex !== -1) {
+                users[userIndex].storeName = storeName;
+                users[userIndex].storeBio = storeBio;
+                users[userIndex].instagram = instagram;
+                users[userIndex].whatsapp = whatsapp;
+                users[userIndex].facebook = facebook;
+                users[userIndex].tiktok = tiktok;
+                
+                localStorage.setItem('skyIslandUsers', JSON.stringify(users));
+                userData = users[userIndex];
+                
+                // Update UI
+                loadStoreProfile();
+                hideEditProfileModal();
+                alert('Profil toko berhasil diperbarui!');
+            }
+        }
+
+        function addProduct() {
+            if (!currentUser) {
+                alert('Silakan login terlebih dahulu!');
+                return;
+            }
+
+            const productName = document.getElementById('productName').value;
+            const productPrice = document.getElementById('productPrice').value;
+            const productStock = document.getElementById('productStock').value;
+            const productDescription = document.getElementById('productDescription').value;
+
+            if (!productName || !productPrice || !productStock || !productDescription || !productImageBase64) {
+                alert('Harap isi semua field!');
+                return;
+            }
+
+            const product = {
+                id: Date.now(),
+                name: productName,
+                price: parseInt(productPrice),
+                stock: parseInt(productStock),
+                description: productDescription,
+                image: productImageBase64,
+                seller: currentUser,
+                date: new Date().toISOString(),
+                isVIP: false
+            };
+
+            // Simpan produk
+            const existingProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            existingProducts.push(product);
+            localStorage.setItem('skyIslandProducts', JSON.stringify(existingProducts));
+
+            // Reset form
+            document.getElementById('productName').value = '';
+            document.getElementById('productPrice').value = '';
+            document.getElementById('productStock').value = '';
+            document.getElementById('productDescription').value = '';
+            document.getElementById('productImage').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('previewText').style.display = 'block';
+            productImageBase64 = '';
+
+            alert('Produk berhasil ditambahkan!');
+            loadUserProducts();
+            updateStoreStats(); // Update stats
+        }
+
+        function editProduct(productId) {
+            const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            const product = allProducts.find(p => p.id === productId);
+            
+            if (!product) {
+                alert('Produk tidak ditemukan!');
+                return;
+            }
+
+            currentEditingProductId = productId;
+            
+            // Isi form edit dengan data produk
+            document.getElementById('editProductName').value = product.name;
+            document.getElementById('editProductPrice').value = product.price;
+            document.getElementById('editProductStock').value = product.stock;
+            document.getElementById('editProductDescription').value = product.description;
+            
+            // Set preview gambar
+            document.getElementById('editImagePreview').src = product.image;
+            document.getElementById('editImagePreview').style.display = 'block';
+            document.getElementById('editPreviewText').style.display = 'none';
+            
+            editProductImageBase64 = product.image;
+            
+            // Tampilkan modal
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        function saveProduct() {
+            if (!currentEditingProductId) return;
+
+            const productName = document.getElementById('editProductName').value;
+            const productPrice = document.getElementById('editProductPrice').value;
+            const productStock = document.getElementById('editProductStock').value;
+            const productDescription = document.getElementById('editProductDescription').value;
+
+            if (!productName || !productPrice || !productStock || !productDescription) {
+                alert('Harap isi semua field!');
+                return;
+            }
+
+            const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            const productIndex = allProducts.findIndex(p => p.id === currentEditingProductId);
+            
+            if (productIndex === -1) {
+                alert('Produk tidak ditemukan!');
+                return;
+            }
+
+            // Update produk
+            allProducts[productIndex].name = productName;
+            allProducts[productIndex].price = parseInt(productPrice);
+            allProducts[productIndex].stock = parseInt(productStock);
+            allProducts[productIndex].description = productDescription;
+            
+            // Jika ada gambar baru, update gambar
+            if (editProductImageBase64 && editProductImageBase64 !== allProducts[productIndex].image) {
+                allProducts[productIndex].image = editProductImageBase64;
+            }
+
+            localStorage.setItem('skyIslandProducts', JSON.stringify(allProducts));
+            
+            alert('Produk berhasil diperbarui!');
+            hideEditModal();
+            loadUserProducts();
+        }
+
+        function deleteProduct(productId) {
+            if (!confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
+                return;
+            }
+
+            const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            const filteredProducts = allProducts.filter(p => p.id !== productId);
+            
+            localStorage.setItem('skyIslandProducts', JSON.stringify(filteredProducts));
+            
+            alert('Produk berhasil dihapus!');
+            loadUserProducts();
+            updateStoreStats(); // Update stats
+        }
+
+        function hideEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+            currentEditingProductId = null;
+            editProductImageBase64 = '';
+        }
+
+        function calculateProductRating(productId) {
+            const allRatings = JSON.parse(localStorage.getItem('skyIslandRatings') || '[]');
+            const productRatings = allRatings.filter(rating => rating.productId === productId);
+            
+            if (productRatings.length === 0) {
+                return { average: 0, count: 0 };
+            }
+            
+            const totalRating = productRatings.reduce((sum, rating) => sum + rating.stars, 0);
+            const averageRating = Math.round((totalRating / productRatings.length) * 20); // Convert to percentage
+            
+            return { average: averageRating, count: productRatings.length };
+        }
+
+        function generateStars(rating) {
+            const stars = [];
+            const filledStars = Math.floor(rating / 20); // Convert percentage to 1-5 stars
+            const emptyStars = 5 - filledStars;
+            
+            for (let i = 0; i < filledStars; i++) {
+                stars.push('<i class="fas fa-star rating-star"></i>');
+            }
+            for (let i = 0; i < emptyStars; i++) {
+                stars.push('<i class="far fa-star rating-star"></i>');
+            }
+            
+            return stars.join('');
+        }
+
+        function loadUserProducts() {
+            const allProducts = JSON.parse(localStorage.getItem('skyIslandProducts') || '[]');
+            const userProducts = allProducts.filter(product => product.seller === currentUser);
+
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = '';
+
+            if (userProducts.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">Belum ada produk</p>';
+                return;
+            }
+
+            userProducts.forEach(product => {
+                const rating = calculateProductRating(product.id);
+                const productElement = document.createElement('div');
+                productElement.className = 'product-item';
+                productElement.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">
+                            ${product.name}
+                            ${product.isVIP ? '<span class="vip-badge">VIP</span>' : ''}
+                        </div>
+                        <div class="product-description" style="font-size: 12px; color: #666; margin-bottom: 6px;">${product.description}</div>
+                        <div class="product-price">Rp ${product.price.toLocaleString()}</div>
+                        <div class="product-stock">Stok: ${product.stock}</div>
+                        <div class="product-rating">
+                            <div class="rating-stars">
+                                ${generateStars(rating.average)}
+                            </div>
+                            <div class="rating-text">${rating.average}% (${rating.count} ulasan)</div>
+                        </div>
+                        <div class="product-actions">
+                            <button class="action-btn btn-edit" onclick="editProduct(${product.id})">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="action-btn btn-delete" onclick="deleteProduct(${product.id})">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(productElement);
+            });
+        }
+
+        // Load data saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            currentUser = localStorage.getItem('skyIslandCurrentUser');
+            if (!currentUser) {
+                window.location.href = 'store.html';
+                return;
+            }
+            loadStoreProfile();
+            loadUserProducts();
+        });
+
+        // Bottom navigation active state
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
